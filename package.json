@@ -1,9 +1,10 @@
 {
-  "name": "my-module",
+  "private": true,
+  "name": "@xenodrive/nuxt-basic-ui",
   "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "your-org/my-module",
-  "license": "MIT",
+  "description": "Basic UI library for Nuxt",
+  "author": "Xenodrive, Inc.",
+  "license": "NONE",
   "type": "module",
   "exports": {
     ".": {
@@ -25,21 +26,36 @@
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "type:check": "vue-tsc --noEmit --pretty"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com/"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.10.0"
+    "@mdi/font": "^7.4.47",
+    "@nuintun/qrcode": "^3.4.0",
+    "@nuxt/kit": "^3.10.0",
+    "@nuxtjs/tailwindcss": "^6.11.2",
+    "@types/chroma-js": "^2.4.3",
+    "chroma-js": "^2.4.2",
+    "tailwind-merge": "^2.2.1",
+    "vue-resize": "^1.0.1",
+    "vue-tsc": "^1.8.27"
   },
   "devDependencies": {
-    "@types/node": "^20.11.13",
     "@nuxt/devtools": "latest",
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/module-builder": "^0.5.5",
     "@nuxt/schema": "^3.10.0",
     "@nuxt/test-utils": "^3.11.0",
+    "@types/node": "^20.11.14",
     "changelogen": "^0.5.5",
     "eslint": "^8.56.0",
     "nuxt": "^3.10.0",
+    "sass": "^1.70.0",
+    "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   }
 }

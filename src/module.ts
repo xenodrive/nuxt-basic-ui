@@ -1,19 +1,37 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { addComponentsDir, addPlugin, createResolver, defineNuxtModule, installModule, resolveFiles, useLogger } from '@nuxt/kit';
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {}
 
+const logger = useLogger('nuxt:basic-ui');
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'my-module',
-    configKey: 'myModule'
+    name: '@xenodrive/nuxt-basic-ui',
+    configKey: 'ui',
   },
   // Default configuration options of the Nuxt module
   defaults: {},
-  setup (options, nuxt) {
-    const resolver = createResolver(import.meta.url)
+  async setup(_options, nuxt) {
+    const { resolve } = createResolver(import.meta.url);
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
-  }
-})
+    nuxt.options.css.push('@mdi/font/css/materialdesignicons.css');
+
+    nuxt.hook('tailwindcss:config', function (config) {
+      if (config && Array.isArray(config.content)) {
+        config.content.push(resolve('./runtime') + '/**/*.{vue,js,ts}');
+      }
+    });
+
+    installModule('@nuxtjs/tailwindcss');
+
+    const path = resolve('./runtime/components');
+    addComponentsDir({ path });
+
+    for (const plugin of await resolveFiles(resolve('./runtime/plugins/'), ['*.mjs', '*.ts'])) {
+      addPlugin(plugin.replace(/\.m?[jt]s$/, ''));
+    }
+
+    logger.info('@xenodrive/nuxt-basic-ui Loaded');
+  },
+});

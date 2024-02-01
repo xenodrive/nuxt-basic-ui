@@ -1,0 +1,142 @@
+<template>
+  <Popup
+    ref="popup"
+    v-model="isActive"
+    v-window-event:keydown="onKeyDown"
+    popup-class="overflow-hidden rounded bg-white p-1 shadow shadow-stone-700/30">
+    <template #trigger>
+      <slot name="trigger">
+        <Button :icon="props.icon" :class="props.buttonClass">
+          <slot name="label">
+            <slot name="value">
+              {{ props.label ?? modelValue }}
+            </slot>
+          </slot>
+          <Icon :name="props.menuIcon || 'menu-down'" />
+        </Button>
+      </slot>
+    </template>
+
+    <slot :close="close" />
+  </Popup>
+</template>
+
+<script lang="ts" setup generic="T extends unknown">
+import { ref, watch, provide } from '#imports';
+
+type Props = {
+  icon?: string;
+  menuIcon?: string;
+
+  label?: string;
+
+  buttonClass?: string;
+
+  autoClose?: boolean;
+
+  selectFirstCandidateOnEnterKey?: boolean;
+};
+
+const popup = ref();
+const props = defineProps<Props>();
+const emit = defineEmits(['select']);
+
+const isActive = defineModel('active', { default: false });
+watch(isActive, (active) => {
+  if (!active) makeElementActive(undefined);
+});
+
+const modelValue = defineModel<T>();
+
+function onArrowKey(evt: Event, key: 'up' | 'down') {
+  if (!isActive.value) return false;
+
+  const list = Array.from<HTMLElement>(
+    popup.value?.$popup?.querySelectorAll('.input-candidate-item:not([aria-disabled="true"])') ?? [],
+  );
+  if (!list || list.length === 0) return false;
+
+  if (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+
+  let activeIndex = list.findIndex((x) => x.getAttribute('aria-selected') === 'true');
+
+  switch (key) {
+    case 'up':
+      activeIndex = activeIndex >= 0 ? (activeIndex - 1 + list.length) % list.length : list.length - 1;
+      break;
+    case 'down':
+      activeIndex = activeIndex >= 0 ? (activeIndex + 1 + list.length) % list.length : 0;
+      break;
+  }
+
+  makeElementActive(list[activeIndex]);
+
+  return true;
+}
+
+const activeNode = ref<HTMLElement>();
+
+function makeElementActive(node: HTMLElement | undefined) {
+  if (activeNode.value) activeNode.value.setAttribute('aria-selected', 'false');
+  activeNode.value = node;
+  if (activeNode.value) activeNode.value.setAttribute('aria-selected', 'true');
+}
+
+function onKeyDown(e: KeyboardEvent) {
+  const modifiers = [];
+  modifiers.push(e.shiftKey ? 'S-' : '');
+  modifiers.push(e.ctrlKey ? 'C-' : '');
+  modifiers.push(e.altKey ? 'A-' : '');
+  const key = modifiers.join('') + (e.key ?? e.code);
+
+  if (isActive.value && key === 'ArrowUp') return onArrowKey(e, 'up');
+  if (isActive.value && key === 'ArrowDown') return onArrowKey(e, 'down');
+  if (isActive.value && key === 'Escape') {
+    isActive.value = false;
+    return true;
+  }
+
+  if (isActive.value && key === 'Enter') {
+    // NB: This includes disabled items
+    const list = Array.from<HTMLElement>(popup.value?.$popup?.querySelectorAll('.input-candidate-item') ?? []);
+
+    let activeIndex = list.findIndex((x) => x.getAttribute('aria-selected') === 'true');
+    if (activeIndex < 0 && props.selectFirstCandidateOnEnterKey) {
+      activeIndex = 0;
+    }
+
+    if (activeIndex >= 0) {
+      const node = list[activeIndex];
+      if (node.ariaDisabled !== 'true') node.click();
+    }
+
+    return true;
+  }
+
+  if (e.key === 'Tab') {
+    if (isActive.value) return onArrowKey(e, 'down');
+    return true;
+  }
+
+  return true;
+}
+
+function close() {
+  isActive.value = false;
+}
+
+const api = {
+  select(item: T) {
+    if (props.autoClose) close();
+    if (item !== undefined) modelValue.value = item;
+    emit('select', item);
+  },
+
+  close,
+};
+
+provide('x-selectable', api);
+</script>
