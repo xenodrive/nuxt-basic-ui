@@ -15,9 +15,10 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(_options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
 
+    // CSS
     nuxt.options.css.push('@mdi/font/css/materialdesignicons.css');
 
-    // XXX: include some commonjs packages
+    // CommonJS packages
     if (!nuxt.options.vite.optimizeDeps) nuxt.options.vite.optimizeDeps = {};
     if (!nuxt.options.vite.optimizeDeps.include) nuxt.options.vite.optimizeDeps.include = [];
     nuxt.options.vite.optimizeDeps.include = [
@@ -26,17 +27,23 @@ export default defineNuxtModule<ModuleOptions>({
       'tailwindcss/colors',
     ];
 
+    // Tailwind
     nuxt.hook('tailwindcss:config', function (config) {
       if (config && Array.isArray(config.content)) {
         config.content.push(resolve('./runtime') + '/**/*.{vue,js,ts}');
       }
     });
-
     installModule('@nuxtjs/tailwindcss');
 
+    // Additional modules
+    installModule('@vueuse/nuxt');
+
+
+    // Load our components
     const path = resolve('./runtime/components');
     addComponentsDir({ path });
 
+    // Load our Plugins
     for (const plugin of await resolveFiles(resolve('./runtime/plugins/'), ['*.mjs', '*.ts'])) {
       addPlugin(plugin.replace(/\.m?[jt]s$/, ''));
     }

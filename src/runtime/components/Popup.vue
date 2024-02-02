@@ -13,7 +13,6 @@
     </div>
 
     <Teleport v-if="teleport" :to="popupContainer">
-      <ResizeObserver @notify="updateRect()" />
       <Transition name="fade">
         <div
           v-show="teleport && isActive && !props.inactive"
@@ -22,7 +21,6 @@
           :style="position"
           :class="props.popupClass"
           @click.stop="updateRect()">
-          <ResizeObserver @notify="updateRect()" />
           <slot />
         </div>
       </Transition>
@@ -32,12 +30,17 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, watch, computed } from '#imports';
+import { useResizeObserver } from '#imports';
 
 const $el = ref<HTMLElement>();
 const $popup = ref<HTMLElement>();
 const $trigger = ref<HTMLElement>();
 
 const popupContainer = ref<HTMLElement>();
+
+useResizeObserver([popupContainer, $popup], () => {
+  updateRect();
+});
 
 // XXX: delay to find popupContainer
 const teleport = ref(false);
