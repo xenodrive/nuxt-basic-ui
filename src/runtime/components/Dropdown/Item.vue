@@ -31,8 +31,7 @@
 
 <script lang="ts" setup>
 import { inject, ref, useAttrs } from '#imports'
-import type { ClassNameValue } from 'tailwind-merge';
-import { twMerge } from 'tailwind-merge';
+import { type ClassNameValue, twMerge } from 'tailwind-merge';
 
 defineOptions({
   inheritAttrs: false,

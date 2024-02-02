@@ -47,16 +47,19 @@ const teleport = ref(false);
 onMounted(() => {
   setTimeout(() => {
     popupContainer.value = document.getElementById('popup-container') ?? document.body;
+    popupContainer.value.style.border = '1px solid red';
     teleport.value = true;
   }, 100);
 });
 
+type Side = 'top' | 'right' | 'bottom' | 'left';
+type Align = 'begin' | 'center' | 'end';
 type Props = {
   active?: boolean;
   inactive?: boolean;
 
-  side?: 'top' | 'right' | 'bottom' | 'left';
-  align?: 'begin' | 'center' | 'end';
+  side?: Side | 'auto';
+  align?: Align | 'auto';
 
   margin?: number;
 
@@ -65,15 +68,13 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-  side: 'bottom',
-  align: 'begin',
+  side: 'auto',
+  align: 'auto',
   margin: 4,
 });
 
 const isActive = defineModel<boolean>({ default: false });
 watch(isActive, (active) => active && updateRect());
-
-const key = computed(() => props.side + '-' + props.align);
 
 const triggerRect = ref<DOMRect>();
 
@@ -81,62 +82,51 @@ function updateRect() {
   triggerRect.value = ($trigger.value?.firstElementChild as HTMLElement)?.getBoundingClientRect();
 }
 
-const triggerPos = computed(() => {
-  if (triggerRect.value) {
-    const ax = {
-      'top-begin': 0,
-      'top-center': 1 / 2,
-      'top-end': 1,
-      'bottom-begin': 0,
-      'bottom-center': 1 / 2,
-      'bottom-end': 1,
+function getTriggerXY(side: Side, align: Align) {
+  if (!triggerRect.value) return [0, 0];
 
-      'left-begin': 0,
-      'left-center': 0,
-      'left-end': 0,
-      'right-begin': 1,
-      'right-center': 1,
-      'right-end': 1,
-    }[key.value];
+  const ax = {
+    'top-begin': 0,
+    'top-center': 1 / 2,
+    'top-end': 1,
+    'bottom-begin': 0,
+    'bottom-center': 1 / 2,
+    'bottom-end': 1,
 
-    const ay = {
-      'top-begin': 0,
-      'top-center': 0,
-      'top-end': 0,
-      'bottom-begin': 1,
-      'bottom-center': 1,
-      'bottom-end': 1,
+    'left-begin': 0,
+    'left-center': 0,
+    'left-end': 0,
+    'right-begin': 1,
+    'right-center': 1,
+    'right-end': 1,
+  }[side + '-' + align];
 
-      'left-begin': 0,
-      'left-center': 1 / 2,
-      'left-end': 1,
-      'right-begin': 0,
-      'right-center': 1 / 2,
-      'right-end': 1,
-    }[key.value];
+  const ay = {
+    'top-begin': 0,
+    'top-center': 0,
+    'top-end': 0,
+    'bottom-begin': 1,
+    'bottom-center': 1,
+    'bottom-end': 1,
 
-    const mx = { left: -1, right: 1, top: 0, bottom: 0 }[props.side];
-    const my = { left: 0, right: 0, top: -1, bottom: 1 }[props.side];
+    'left-begin': 0,
+    'left-center': 1 / 2,
+    'left-end': 1,
+    'right-begin': 0,
+    'right-center': 1 / 2,
+    'right-end': 1,
+  }[side + '-' + align];
 
-    return [
-      triggerRect.value.left + ax! * triggerRect.value.width + mx * props.margin,
-      triggerRect.value.top + ay! * triggerRect.value.height /* + window.scrollY */ + my * props.margin,
-    ];
-  }
-  return [0, 0];
-});
+  const mx = { left: -1, right: 1, top: 0, bottom: 0 }[side];
+  const my = { left: 0, right: 0, top: -1, bottom: 1 }[side];
 
-const position = computed(() => {
-  const page = popupContainer.value;
-  if (!page) {
-    return undefined;
-  }
+  return [
+    triggerRect.value.left + ax! * triggerRect.value.width + mx * props.margin,
+    triggerRect.value.top + ay! * triggerRect.value.height /* + window.scrollY */ + my * props.margin,
+  ];
+}
 
-  const pageRect = page.getBoundingClientRect();
-  if (!pageRect) {
-    return undefined;
-  }
-
+function getAnchorXY(side: Side, align: Align) {
   const anchor = {
     'top-begin': 7,
     'top-center': 8,
@@ -151,15 +141,61 @@ const position = computed(() => {
     'right-begin': 1,
     'right-center': 4,
     'right-end': 7,
-  }[key.value];
-  const dx = [0, -1 / 2, -1, 0, -1 / 2, -1, 0, -1 / 2, -1][(anchor ?? 1) - 1];
-  const dy = [0, 0, 0, -1 / 2, -1 / 2, -1 / 2, -1, -1, -1][(anchor ?? 1) - 1];
+  }[side + '-' + align];
+
+  return [
+    [0, -1 / 2, -1, 0, -1 / 2, -1, 0, -1 / 2, -1][(anchor ?? 1) - 1],
+    [0, 0, 0, -1 / 2, -1 / 2, -1 / 2, -1, -1, -1][(anchor ?? 1) - 1],
+  ]
+}
+
+const position = computed(() => {
+  const page = popupContainer.value;
+  if (!page) {
+    return undefined;
+  }
+
+  const pageRect = page.getBoundingClientRect();
+  if (!pageRect) {
+    return undefined;
+  }
+
+  const popupRect = $popup.value?.getBoundingClientRect();
+  if (!popupRect) {
+    return undefined;
+  }
+
+  if (!triggerRect.value) {
+    return undefined;
+  }
+
+  const [side, align] = (function() {
+    if (props.side !== 'auto' && props.align !== 'auto') {
+      return [props.side, props.align];
+    }
+
+    const triggerCenter = [
+      triggerRect.value.x + triggerRect.value.width / 2,
+      triggerRect.value.y + triggerRect.value.height / 2,
+    ];
+
+    const flipX = triggerCenter[0] > page.clientWidth / 2;
+    const flipY = triggerCenter[1] > page.clientHeight / 2;
+
+    return [flipY ? 'top' : 'bottom', flipX ? 'end' : 'begin'] as const;
+  })();
+
+  const [anchorX, anchorY] = getAnchorXY(side, align);
+  const [triggerX, triggerY] = getTriggerXY(side, align);
+
+  const left = triggerX - pageRect.left + page.scrollLeft;
+  const top = triggerY - pageRect.top + page.scrollTop;
 
   const pos = {
-    left: triggerPos.value?.[0] - pageRect.left + page.scrollLeft + 'px',
-    top: triggerPos.value?.[1] - pageRect.top + page.scrollTop + 'px',
+    left: `${left}px`,
+    top: `${top}px`,
 
-    transform: `translate(${dx * 100}%, ${dy * 100}%)`,
+    transform: `translate(${anchorX * 100}%, ${anchorY * 100}%)`,
   };
 
   return pos;
