@@ -17,6 +17,15 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.css.push('@mdi/font/css/materialdesignicons.css');
 
+    // XXX: include some commonjs packages
+    if (!nuxt.options.vite.optimizeDeps) nuxt.options.vite.optimizeDeps = {};
+    if (!nuxt.options.vite.optimizeDeps.include) nuxt.options.vite.optimizeDeps.include = [];
+    nuxt.options.vite.optimizeDeps.include = [
+      ...nuxt.options.vite.optimizeDeps.include,
+      'chroma-js',
+      'tailwindcss/colors',
+    ];
+
     nuxt.hook('tailwindcss:config', function (config) {
       if (config && Array.isArray(config.content)) {
         config.content.push(resolve('./runtime') + '/**/*.{vue,js,ts}');
