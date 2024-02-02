@@ -47,7 +47,6 @@ const teleport = ref(false);
 onMounted(() => {
   setTimeout(() => {
     popupContainer.value = document.getElementById('popup-container') ?? document.body;
-    popupContainer.value.style.border = '1px solid red';
     teleport.value = true;
   }, 100);
 });
