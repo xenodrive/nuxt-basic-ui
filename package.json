@@ -1,7 +1,6 @@
 {
-  "private": true,
   "name": "@xenodrive/nuxt-basic-ui",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "Basic UI library for Nuxt",
   "author": "Xenodrive, Inc.",
   "license": "NONE",

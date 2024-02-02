@@ -21,6 +21,7 @@ jobs:
         with:
           version: 8
       - run: pnpm i --frozen-lockfile --strict-peer-dependencies
+      - run: pnpm dev:prepare
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
