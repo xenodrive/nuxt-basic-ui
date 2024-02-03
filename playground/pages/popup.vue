@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Checkbox :model-value="true">Hello</Checkbox>
+    <Checkbox :model-value="true" tri-state>Hello</Checkbox>
 
     <div style="width: 350px; height: 200px;" class="m-4 bg-red-100 relative z-0" id="popup-container">
       <Dropdown v-for="place in places">

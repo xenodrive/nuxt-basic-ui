@@ -3,21 +3,28 @@
     class="app-hoverable inline-flex items-center"
     :class="{ 'cursor-pointer': !props.disabled && !props.readonly }"
     @click="onClick">
-    <Icon :icon="icon" class="text-indigo-500 aria-disabled:text-gray-400" :aria-disabled="props.disabled" />
+    <Icon :icon="icon" class="checkbox aria-disabled:text-gray-400" :aria-disabled="props.disabled" />
     <div class="ml-0.5 select-none aria-disabled:text-gray-400" :aria-disabled="props.disabled"><slot /></div>
   </label>
 </template>
 
 <script lang="ts" setup>
 import { computed } from '#imports';
+import { twColor, type TwColor } from '../utils';
 
 const value = defineModel<boolean | undefined | null | number | string>({ default: undefined });
 type Props = {
   readonly?: boolean;
   disabled?: boolean;
   triState?: boolean | null | number | string;
+  color?: TwColor;
 };
-const props = defineProps<Props>();
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    color: 'blue-500',
+  }
+);
 
 const triStateValue = computed(() => {
   return typeof props.triState === 'boolean' ? undefined : props.triState;
@@ -44,4 +51,13 @@ function onClick() {
         ? false
         : true;
 }
+const color = computed(() => {
+  return twColor(props.color);
+});
 </script>
+
+<style scoped>
+.checkbox {
+  color: v-bind(color);
+}
+</style>
