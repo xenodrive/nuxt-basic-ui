@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, watch, computed } from '#imports';
-import { useResizeObserver } from '#imports';
+import { useResizeObserver } from '@vueuse/core';
 
 const $el = ref<HTMLElement>();
 const $popup = ref<HTMLElement>();
@@ -178,8 +178,8 @@ const position = computed(() => {
       triggerRect.value.y + triggerRect.value.height / 2,
     ];
 
-    const flipX = triggerCenter[0] > page.clientWidth / 2;
-    const flipY = triggerCenter[1] > page.clientHeight / 2;
+    const flipX = triggerCenter[0] > (page === document.body ? window.innerWidth : page.clientWidth) / 2;
+    const flipY = triggerCenter[1] > (page === document.body ? window.innerHeight : page.clientHeight) / 2;
 
     return [flipY ? 'top' : 'bottom', flipX ? 'end' : 'begin'] as const;
   })();

@@ -20,6 +20,9 @@ dependencies:
   '@types/chroma-js':
     specifier: ^2.4.3
     version: 2.4.3
+  '@vueuse/core':
+    specifier: ^10.7.2
+    version: 10.7.2(vue@3.4.15)
   '@vueuse/nuxt':
     specifier: ^10.7.2
     version: 10.7.2(nuxt@3.10.0)(rollup@3.29.4)(vue@3.4.15)
@@ -29,6 +32,9 @@ dependencies:
   tailwind-merge:
     specifier: ^2.2.1
     version: 2.2.1
+  tailwindcss:
+    specifier: ^3.4.1
+    version: 3.4.1
   vue-tsc:
     specifier: ^1.8.27
     version: 1.8.27(typescript@5.3.3)
