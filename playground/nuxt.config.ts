@@ -3,5 +3,5 @@ export default defineNuxtConfig({
     cssPath: '~/main.scss',
   },
   modules: ['../src/module'],
-  devtools: { enabled: true }
-})
+  devtools: { enabled: true },
+});
