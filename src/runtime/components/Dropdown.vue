@@ -41,7 +41,7 @@ const popup = ref();
 const props = defineProps<Props>();
 const emit = defineEmits(['select']);
 
-const isActive = defineModel('active', { default: false });
+const isActive = defineModel<boolean>('active', { default: false });
 watch(isActive, (active) => {
   if (!active) makeElementActive(undefined);
 });

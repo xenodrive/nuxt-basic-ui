@@ -19,12 +19,9 @@ type Props = {
   triState?: boolean | null | number | string;
   color?: TwColor;
 };
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    color: 'blue-500',
-  }
-);
+const props = withDefaults(defineProps<Props>(), {
+  color: 'blue-500',
+});
 
 const triStateValue = computed(() => {
   return typeof props.triState === 'boolean' ? undefined : props.triState;

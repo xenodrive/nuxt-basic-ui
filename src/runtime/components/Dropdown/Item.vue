@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, useAttrs } from '#imports'
+import { inject, ref, useAttrs } from '#imports';
 import { type ClassNameValue, twMerge } from 'tailwind-merge';
 
 defineOptions({

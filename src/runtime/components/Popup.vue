@@ -145,7 +145,7 @@ function getAnchorXY(side: Side, align: Align) {
   return [
     [0, -1 / 2, -1, 0, -1 / 2, -1, 0, -1 / 2, -1][(anchor ?? 1) - 1],
     [0, 0, 0, -1 / 2, -1 / 2, -1 / 2, -1, -1, -1][(anchor ?? 1) - 1],
-  ]
+  ];
 }
 
 const position = computed(() => {
@@ -168,7 +168,7 @@ const position = computed(() => {
     return undefined;
   }
 
-  const [side, align] = (function() {
+  const [side, align] = (function () {
     if (props.side !== 'auto' && props.align !== 'auto') {
       return [props.side, props.align];
     }

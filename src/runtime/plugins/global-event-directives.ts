@@ -4,8 +4,8 @@
  *   v-window-event:mouseup.passive="onMouseUp" v-window-event:mousemove.passive="onMouseMove"
  */
 
-import type { Directive } from 'vue';
 import { defineNuxtPlugin } from '#app';
+import type { Directive } from 'vue';
 
 export type GlobalEventDirectivesAPI = {
   el: HTMLElement;

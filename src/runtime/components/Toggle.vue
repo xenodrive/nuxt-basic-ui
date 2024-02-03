@@ -1,8 +1,9 @@
 <template>
   <label class="relative inline-flex cursor-pointer items-center">
-    <input type="checkbox" ref="$checkbox" @change="onChange" value="1" :checked="props.checked" class="peer sr-only" />
-    <div class="toggle-switch rounded-full bg-gray-200 after:rounded-full after:bg-white transition-all after:transition-all" />
-    <span class="ml-2 text-sm font-medium text-gray-900 select-none"><slot /></span>
+    <input ref="$checkbox" type="checkbox" value="1" :checked="props.checked" class="peer sr-only" @change="onChange" />
+    <div
+      class="toggle-switch rounded-full bg-gray-200 transition-all after:rounded-full after:bg-white after:transition-all" />
+    <span class="ml-2 select-none text-sm font-medium text-gray-900"><slot /></span>
   </label>
 </template>
 
@@ -77,7 +78,8 @@ const diameter = computed(() => {
     transform: translate(calc(v-bind('width') - v-bind('diameter') - var(--my-padding)), 0);
   }
 }
-.peer:focus ~ .toggle-switch, .toggle-switch:hover {
+.peer:focus ~ .toggle-switch,
+.toggle-switch:hover {
   outline: calc(var(--my-padding) / 2) solid v-bind('ring');
 }
 </style>

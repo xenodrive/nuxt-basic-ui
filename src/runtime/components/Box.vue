@@ -27,7 +27,7 @@ type Props = {
 };
 const props = defineProps<Props>();
 
-const collapsed = defineModel({ default: false });
+const collapsed = defineModel<boolean>({ default: false });
 if (props.collapse) collapsed.value = props.collapse;
 
 function open() {

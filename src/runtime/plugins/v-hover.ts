@@ -1,5 +1,5 @@
-import type { Directive } from 'vue';
 import { defineNuxtPlugin } from '#app';
+import type { Directive } from 'vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('hover', <Directive<HTMLElement, string>>{

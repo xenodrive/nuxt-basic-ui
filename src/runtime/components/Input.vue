@@ -105,7 +105,7 @@ const emit = defineEmits([
 
 const $input = ref<HTMLInputElement>();
 
-const value = defineModel({ default: '' });
+const value = defineModel<string>({ default: '' });
 
 function focus() {
   if ($input.value && $input.value !== document.activeElement) {

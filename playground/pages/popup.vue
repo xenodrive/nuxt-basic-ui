@@ -2,8 +2,8 @@
   <div>
     <Checkbox :model-value="true" tri-state>Hello</Checkbox>
 
-    <div style="width: 350px; height: 200px;" class="m-4 bg-red-100 relative z-0" id="popup-container">
-      <Dropdown v-for="place in places">
+    <div id="popup-container" style="width: 350px; height: 200px" class="relative z-0 m-4 bg-red-100">
+      <Dropdown v-for="(place, idx) in places" :key="idx">
         <template #trigger>
           <Button class="absolute" :style="place">Trigger</Button>
         </template>
@@ -12,9 +12,7 @@
       </Dropdown>
     </div>
 
-    <div class="relative w-96 h-96 bg-blue-100 z-50">
-      Hello
-    </div>
+    <div class="relative z-50 h-96 w-96 bg-blue-100">Hello</div>
   </div>
 </template>
 

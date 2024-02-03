@@ -1,4 +1,12 @@
-import { addComponentsDir, addPlugin, createResolver, defineNuxtModule, installModule, resolveFiles, useLogger } from '@nuxt/kit';
+import {
+  addComponentsDir,
+  addPlugin,
+  createResolver,
+  defineNuxtModule,
+  installModule,
+  resolveFiles,
+  useLogger,
+} from '@nuxt/kit';
 import plugin from 'tailwindcss/plugin.js';
 
 // Module options TypeScript interface definition
@@ -37,10 +45,12 @@ export default defineNuxtModule<ModuleOptions>({
       if (!config.presets) config.presets = [];
       config.presets.push({
         plugins: [
-          plugin(({ addComponents }) => addComponents({
-            '.app-hoverable': {},
-            '.app-border': {},
-          })),
+          plugin(({ addComponents }) =>
+            addComponents({
+              '.app-hoverable': {},
+              '.app-border': {},
+            }),
+          ),
         ],
       });
     });
@@ -48,7 +58,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Additional modules
     installModule('@vueuse/nuxt');
-
 
     // Load our components
     const path = resolve('./runtime/components');
