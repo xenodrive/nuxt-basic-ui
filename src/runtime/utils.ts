@@ -248,6 +248,7 @@ export type TwColor =
   | 'rose-950';
 
 export function twColor(name: TwColor | string) {
+  if (name === 'transparent') return '#00000000';
   if (name) {
     const m = name.match(/^([a-z]+)-(50|950|[123456789]00)$/);
     if (m && m[1] in twcolors) {

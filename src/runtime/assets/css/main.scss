@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .disabled-style {
+    @apply aria-disabled:cursor-not-allowed aria-disabled:bg-transparent aria-disabled:opacity-20 disabled:cursor-not-allowed disabled:opacity-20;
+  }
+
+  .button {
+    @apply disabled-style;
+  }
+
+  .dropdown {
+    @apply rounded bg-white p-1 shadow shadow-stone-700/30;
+  }
+
+  .dropdown-divider {
+    @apply mx-2 my-1;
+  }
+
+  .dropdown-item {
+    @apply disabled-style;
+
+    @apply px-3 py-2 rounded;
+    @apply flex cursor-pointer select-none items-baseline gap-2;
+
+    &[aria-selected='true'] {
+      background-color: theme('dropdown.selected.background' / theme('dropdown.selected.backgroundOpacity'));
+      color: theme('dropdown.selected.text');
+    }
+    &:hover {
+      background-color: theme('dropdown.hover.background' / theme('dropdown.hover.backgroundOpacity'));
+      color: theme('dropdown.hover.text');
+    }
+  }
+
+  .checkbox {
+    @apply disabled-style;
+
+    & > .icon {
+      color: theme('checkbox.active.icon');
+    }
+
+    &:hover > .icon {
+      background-color: theme('checkbox.hover.background' / theme('checkbox.hover.backgroundOpacity'));
+      color: theme('checkbox.hover.icon');
+    }
+  }
+
+  .tag {
+    @apply rounded-full text-xs;
+
+    --main-text-color: theme('tag.main.text');
+    --main-text-shadow-color: theme('tag.main.text' / 25%);
+    --main-background-color: theme('tag.main.background');
+    --sub-text-color: theme('tag.sub.text');
+    --sub-text-shadow-color: theme('tag.sub.text' / 25%);
+    --sub-background-color: theme('tag.sub.background');
+
+    .main {
+      color: var(--main-text-color);
+      background-color: var(--main-background-color);
+
+      @apply pl-1.5 pr-0.5 py-0.5 last:pr-1.5;
+      text-shadow: 1px 1px var(--main-text-shadow-color);;
+    }
+    .sub {
+      color: var(--sub-text-color);
+      background-color: var(--sub-background-color);
+
+      @apply pl-0.5 pr-1.5 py-0.5;
+      text-shadow: 1px 1px var(--sub-text-shadow-color);
+    }
+  }
+
+  .box {
+    @apply rounded mt-1 p-2;
+  }
+}

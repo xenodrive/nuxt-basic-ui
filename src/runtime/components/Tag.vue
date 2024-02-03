@@ -1,50 +1,67 @@
 <template>
-  <span
-    :class="twMerge('inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-xs', props.class)"
-    :style="style">
-    <Icon v-if="props.icon" :name="props.icon" /> <slot>{{ props.name }}</slot>
+  <span class="tag inline-flex items-center overflow-hidden whitespace-nowrap" :class="props.class" :style="style">
+    <span class="main inline-flex items-center">
+      <Icon v-if="props.icon" :name="props.icon" />
+      <slot>{{ props.name }}</slot>
+    </span>
+    <span v-if="$slots.sublabel || props.sublabel" class="sub overflow-hidden text-ellipsis whitespace-nowrap">
+      <slot name="sublabel">{{ props.sublabel }}</slot>
+    </span>
   </span>
 </template>
 
 <script lang="ts" setup>
-import { computed } from '#imports';
+import { computed, useSlots } from '#imports';
 import chroma from 'chroma-js';
-import { twMerge } from 'tailwind-merge';
 import { twColor } from '../utils';
+
+const $slots = useSlots();
 
 type Props = {
   color?: string;
-  textColor?: string;
+  colorText?: string;
+
+  colorSub?: string;
+  colorSubText?: string;
+
   icon?: string;
   name?: string;
 
-  outlined?: boolean;
+  sublabel?: string;
+
+  outline?: string;
 
   class?: string;
 };
 
 const props = defineProps<Props>();
 
+function getColorInfo(color: string | undefined, textColor: string | undefined) {
+  if (!color) return {};
+
+  const c = chroma(twColor(color));
+  const isDark = c.luminance() < 0.5;
+  const text = chroma(textColor ? twColor(textColor) : c.luminance(isDark ? 0.9 : 0.1));
+
+  return {
+    background: c.hex(),
+    text: text.hex(),
+    textShadow: text.alpha(0.25).hex(),
+  };
+}
+
 const style = computed(() => {
-  try {
-    if (props.outlined) {
-      const text = twColor(props.color ?? 'gray-300');
-      return {
-        border: '1px solid',
-        borderColor: text.toString(),
-        color: text.toString(),
-      };
-    }
+  const main = getColorInfo(props.color, props.colorText);
+  const sub = getColorInfo(props.colorSub, props.colorSubText);
 
-    const background = chroma(twColor(props.color ?? 'gray-300'));
-    const text = twColor(props.textColor ?? (background.luminance() < 0.5 ? '#fff' : '#000'));
-
-    return {
-      color: text.toString(),
-      backgroundColor: background.toString(),
-    };
-  } catch (e) {
-    return {};
-  }
+  return {
+    outline: props.outline && `1px solid ${twColor(props.outline)}`,
+    '--main-text-color': main.text,
+    '--main-text-shadow-color': main.textShadow,
+    '--main-background-color': main.background,
+    '--sub-text-color': sub.text,
+    '--sub-text-shadow-color': sub.textShadow,
+    '--sub-background-color': sub.background,
+  };
 });
 </script>

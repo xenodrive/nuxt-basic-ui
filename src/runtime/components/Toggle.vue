@@ -2,7 +2,8 @@
   <label class="relative inline-flex cursor-pointer items-center">
     <input ref="$checkbox" type="checkbox" value="1" :checked="props.checked" class="peer sr-only" @change="onChange" />
     <div
-      class="toggle-switch rounded-full bg-gray-200 transition-all after:rounded-full after:bg-white after:transition-all" />
+      class="toggle-switch rounded-full bg-gray-200 transition-all after:rounded-full after:bg-white after:transition-all"
+      :class="{ override: !!color }" />
     <span class="ml-2 select-none text-sm font-medium text-gray-900"><slot /></span>
   </label>
 </template>
@@ -21,7 +22,6 @@ const props = withDefaults(
   {
     size: '1.25rem',
     checked: false,
-    color: 'blue-500',
   },
 );
 const emit = defineEmits<{
@@ -34,12 +34,13 @@ function onChange() {
 }
 
 const color = computed(() => {
+  if (!props.color) return false;
   return twColor(props.color);
 });
 
 const ring = computed(() => {
-  const c = chroma(twColor(props.color));
-  return c.alpha(0.3).hex();
+  if (!props.color) return false;
+  return chroma(twColor(props.color)).alpha(0.3).hex();
 });
 
 const width = computed(() => {
@@ -73,13 +74,19 @@ const diameter = computed(() => {
   }
 }
 .peer:checked ~ .toggle-switch {
-  background-color: v-bind('color');
+  background-color: theme('colors.primary');
+  &.override {
+    background-color: v-bind(color);
+  }
   &:after {
     transform: translate(calc(v-bind('width') - v-bind('diameter') - var(--my-padding)), 0);
   }
 }
 .peer:focus ~ .toggle-switch,
 .toggle-switch:hover {
-  outline: calc(var(--my-padding) / 2) solid v-bind('ring');
+  outline: calc(var(--my-padding) / 2) solid theme('colors.primary' / 30%);
+  &.override {
+    outline-color: v-bind(ring);
+  }
 }
 </style>

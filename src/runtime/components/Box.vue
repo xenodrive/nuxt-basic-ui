@@ -1,5 +1,5 @@
 <template>
-  <div class="relative rounded border border-gray-500 p-2">
+  <div class="box relative border">
     <label
       v-if="props.label"
       class="absolute -top-2.5 left-1 z-0 flex h-5 items-center whitespace-nowrap px-0.5 text-xs"
@@ -20,10 +20,15 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from '#imports';
+import { twColor, type TwColor } from '../utils';
+
 type Props = {
   label?: string;
   collapsible?: boolean;
   collapse?: boolean;
+
+  strikeColor?: TwColor;
 };
 const props = defineProps<Props>();
 
@@ -33,6 +38,10 @@ if (props.collapse) collapsed.value = props.collapse;
 function open() {
   collapsed.value = false;
 }
+
+const strikeColor = computed(() => {
+  return props.strikeColor ? twColor(props.strikeColor) : 'white';
+});
 </script>
 
 <style lang="scss" scoped>
@@ -43,7 +52,7 @@ label {
   &:before {
     position: absolute;
     z-index: -1;
-    background: white;
+    background: v-bind(strikeColor);
     display: block;
     content: '';
     left: -2px;

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Checkbox :model-value="true" tri-state>Hello</Checkbox>
+    <Checkbox checked tri-state>Hello</Checkbox>
+    <Checkbox checked tri-state color="red-500">Hello</Checkbox>
+    <Checkbox checked disabled color="red-500">Hello</Checkbox>
 
     <div id="popup-container" style="width: 350px; height: 200px" class="relative z-0 m-4 bg-red-100">
       <Dropdown v-for="(place, idx) in places" :key="idx">

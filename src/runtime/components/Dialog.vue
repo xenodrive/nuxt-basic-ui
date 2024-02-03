@@ -13,14 +13,13 @@
         <slot name="footer" :value="editing" :update="update" />
       </div>
       <div class="flex justify-end gap-2">
-        <button
+        <Button
           :disabled="props.validator && !props.validator(editing)"
-          class="appearance-none shadow-none outline-none"
-          :class="twMerge('bg-indigo-500 hover:bg-indigo-600 focus:ring-0', props.commitClass)"
+          :class="twMerge('bg-primary', props.commitClass)"
           @click="commit()">
           <slot name="label-commit">{{ props.commitLabel }}</slot>
-        </button>
-        <button :class="props.cancelClass" @click="modal = false">{{ props.cancelLabel }}</button>
+        </Button>
+        <Button :class="twMerge(props.cancelClass)" @click="modal = false">{{ props.cancelLabel }}</Button>
       </div>
     </div>
   </Modal>

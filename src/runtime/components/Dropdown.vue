@@ -1,9 +1,5 @@
 <template>
-  <Popup
-    ref="popup"
-    v-model="isActive"
-    v-window-event:keydown="onKeyDown"
-    popup-class="overflow-hidden rounded bg-white p-1 shadow shadow-stone-700/30">
+  <Popup ref="popup" v-model="isActive" v-window-event:keydown="onKeyDown" popup-class="dropdown overflow-hidden">
     <template #trigger>
       <slot name="trigger">
         <Button :icon="props.icon" :class="props.buttonClass">

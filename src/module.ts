@@ -1,13 +1,14 @@
 import {
   addComponentsDir,
   addPlugin,
+  addTemplate,
   createResolver,
   defineNuxtModule,
   installModule,
   resolveFiles,
   useLogger,
 } from '@nuxt/kit';
-import plugin from 'tailwindcss/plugin.js';
+import tailwindPlugin from './tailwind-plugin.js';
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {}
@@ -44,17 +45,23 @@ export default defineNuxtModule<ModuleOptions>({
 
       if (!config.presets) config.presets = [];
       config.presets.push({
-        plugins: [
-          plugin(({ addComponents }) =>
-            addComponents({
-              '.app-hoverable': {},
-              '.app-border': {},
-            }),
-          ),
-        ],
+        plugins: [tailwindPlugin],
       });
     });
-    installModule('@nuxtjs/tailwindcss');
+
+    // Hijack user specified cssPath, or tailwindcss/tailwind.css
+    const origCssPath = nuxt.options.tailwindcss?.cssPath ?? 'tailwindcss/tailwind.css';
+    const cssFiles = await resolveFiles(resolve('./runtime/assets/css/'), ['*.css', '*.scss']);
+    const tmpl = addTemplate({
+      filename: 'tailwind.css',
+      write: true,
+      getContents: () => [...cssFiles.map((fname) => `@import '${fname}';`), `@import '${origCssPath}';`].join('\n'),
+    });
+
+    installModule('@nuxtjs/tailwindcss', {
+      ...(nuxt.options.tailwindcss || {}),
+      cssPath: tmpl.dst,
+    });
 
     // Additional modules
     installModule('@vueuse/nuxt');

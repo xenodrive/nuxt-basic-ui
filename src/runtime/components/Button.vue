@@ -1,5 +1,10 @@
 <template>
-  <button :class="twMerge('relative', props.class)" @mouseenter="hover = true" @mouseleave="hover = false">
+  <button
+    class="button"
+    :class="twMerge('relative overflow-hidden', props.class)"
+    @mouseenter="hover = true"
+    @mouseleave="hover = false">
+    <div class="absolute inset-0 bg-black bg-opacity-0 transition-colors hover:bg-opacity-5 active:bg-opacity-10" />
     <Loading :model-value="props.loading" size="small" :backdrop="false" class="bg-opacity-80" />
     <Icon v-if="icon" :name="`${icon}`" :size="iconSizeProp" /> <slot />
   </button>

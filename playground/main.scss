@@ -3,4 +3,7 @@
 @tailwind utilities;
 
 @layer components {
+  .box {
+    // @apply mt-3 rounded p-2;
+  }
 }

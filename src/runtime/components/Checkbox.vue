@@ -1,15 +1,17 @@
 <template>
   <label
-    class="app-hoverable inline-flex items-center"
+    class="checkbox inline-flex items-center"
     :class="{ 'cursor-pointer': !props.disabled && !props.readonly }"
+    :aria-disabled="props.disabled"
     @click="onClick">
-    <Icon :icon="icon" class="checkbox aria-disabled:text-gray-400" :aria-disabled="props.disabled" />
-    <div class="ml-0.5 select-none aria-disabled:text-gray-400" :aria-disabled="props.disabled"><slot /></div>
+    <Icon class="icon" :icon="icon" :class="{ override: !!color }" />
+    <div class="ml-0.5 select-none" :aria-disabled="props.disabled"><slot /></div>
   </label>
 </template>
 
 <script lang="ts" setup>
 import { computed } from '#imports';
+import chroma from 'chroma-js';
 import { twColor, type TwColor } from '../utils';
 
 const value = defineModel<boolean | undefined | null | number | string>({ default: undefined });
@@ -19,9 +21,7 @@ type Props = {
   triState?: boolean | null | number | string;
   color?: TwColor;
 };
-const props = withDefaults(defineProps<Props>(), {
-  color: 'blue-500',
-});
+const props = defineProps<Props>();
 
 const triStateValue = computed(() => {
   return typeof props.triState === 'boolean' ? undefined : props.triState;
@@ -48,13 +48,25 @@ function onClick() {
         ? false
         : true;
 }
+
 const color = computed(() => {
-  return twColor(props.color);
+  return props.color && chroma(twColor(props.color)).rgb().join(' ');
 });
 </script>
 
-<style scoped>
-.checkbox {
-  color: v-bind(color);
+<style style="scss" scoped>
+.checkbox:not([aria-disabled='true']) {
+  & > .icon {
+    &.override {
+      color: rgb(v-bind(color));
+    }
+  }
+
+  &:hover > .icon {
+    &.override {
+      background-color: rgba(v-bind(color) / theme('checkbox.hover.backgroundOpacity'));
+      color: rgb(v-bind(color));
+    }
+  }
 }
 </style>
