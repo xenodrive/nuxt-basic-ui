@@ -49,7 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
       });
     });
 
-    // Hijack user specified cssPath, or tailwindcss/tailwind.css
+    // XXX: Hijack user specified cssPath, or tailwindcss/tailwind.css
     const origCssPath = nuxt.options.tailwindcss?.cssPath ?? 'tailwindcss/tailwind.css';
     const cssFiles = await resolveFiles(resolve('./runtime/assets/css/'), ['*.css', '*.scss']);
     const tmpl = addTemplate({
@@ -57,6 +57,14 @@ export default defineNuxtModule<ModuleOptions>({
       write: true,
       getContents: () => [...cssFiles.map((fname) => `@import '${fname}';`), `@import '${origCssPath}';`].join('\n'),
     });
+
+    // XXX: XXX: Extremely dirty hack for race condition
+    if (nuxt.options.vite.warmupEntry !== false) {
+      nuxt.hook('vite:serverCreated', async (server, env) => {
+        const url = tmpl.dst;
+        await server.transformRequest(url, { ssr: env.isServer });
+      });
+    }
 
     installModule('@nuxtjs/tailwindcss', {
       ...(nuxt.options.tailwindcss || {}),
