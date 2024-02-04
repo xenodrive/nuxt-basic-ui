@@ -59,10 +59,10 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     // XXX: XXX: Extremely dirty hack for race condition
-    if (nuxt.options.vite.warmupEntry !== false) {
+    if (nuxt?.options?.vite?.warmupEntry !== false) {
       nuxt.hook('vite:serverCreated', async (server, env) => {
         const url = tmpl.dst;
-        await server.transformRequest(url, { ssr: env.isServer });
+        if (!env.isServer) await server.transformRequest(url, { ssr: env.isServer });
       });
     }
 

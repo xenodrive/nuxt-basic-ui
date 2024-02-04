@@ -39,11 +39,16 @@ export default plugin(() => {}, {
     }),
 
     tag: ({ theme }: any) => ({
-      main: {
+      background: theme('colors.slate.200'),
+      text: theme('colors.slate.800'),
+    }),
+
+    badge: ({ theme }: any) => ({
+      title: {
         background: theme('colors.slate.800'),
         text: theme('colors.slate.200'),
       },
-      sub: {
+      value: {
         background: theme('colors.slate.200'),
         text: theme('colors.slate.800'),
       },

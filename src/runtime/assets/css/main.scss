@@ -49,28 +49,38 @@
   }
 
   .tag {
-    @apply rounded-full text-xs;
+    @apply rounded-full text-xs px-1.5 py-0.5;
 
-    --main-text-color: theme('tag.main.text');
-    --main-text-shadow-color: theme('tag.main.text' / 25%);
-    --main-background-color: theme('tag.main.background');
-    --sub-text-color: theme('tag.sub.text');
-    --sub-text-shadow-color: theme('tag.sub.text' / 25%);
-    --sub-background-color: theme('tag.sub.background');
+    --text-color: theme('tag.text');
+    --background-color: theme('tag.background');
 
-    .main {
-      color: var(--main-text-color);
-      background-color: var(--main-background-color);
+    color: var(--text-color);
+    background-color: var(--background-color);
+  }
 
-      @apply pl-1.5 pr-0.5 py-0.5 last:pr-1.5;
-      text-shadow: 1px 1px var(--main-text-shadow-color);;
+  .badge {
+    @apply rounded text-xs;
+
+    --title-text-color: theme('badge.title.text');
+    --title-text-shadow-color: theme('badge.title.text' / 25%);
+    --title-background-color: theme('badge.title.background');
+    --value-text-color: theme('badge.value.text');
+    --value-text-shadow-color: theme('badge.value.text' / 25%);
+    --value-background-color: theme('badge.value.background');
+
+    .title {
+      color: var(--title-text-color);
+      background-color: var(--title-background-color);
+
+      @apply px-1 py-0.5;
+      text-shadow: 1px 1px var(--title-text-shadow-color);;
     }
-    .sub {
-      color: var(--sub-text-color);
-      background-color: var(--sub-background-color);
+    .value {
+      color: var(--value-text-color);
+      background-color: var(--value-background-color);
 
-      @apply pl-0.5 pr-1.5 py-0.5;
-      text-shadow: 1px 1px var(--sub-text-shadow-color);
+      @apply px-1 py-0.5;
+      text-shadow: 1px 1px var(--value-text-shadow-color);
     }
   }
 
