@@ -19,6 +19,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from '#imports';
+
 const places = computed(() => {
   const result = [];
   for (const y of [-10, 0, 50, 80, 100]) {

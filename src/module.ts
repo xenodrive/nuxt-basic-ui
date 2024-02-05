@@ -52,6 +52,7 @@ export default defineNuxtModule<ModuleOptions>({
     // XXX: Hijack user specified cssPath, or tailwindcss/tailwind.css
     const origCssPath = nuxt.options.tailwindcss?.cssPath ?? 'tailwindcss/tailwind.css';
     const cssFiles = await resolveFiles(resolve('./runtime/assets/css/'), ['*.css', '*.scss']);
+
     const tmpl = addTemplate({
       filename: 'tailwind.css',
       write: true,
@@ -59,19 +60,19 @@ export default defineNuxtModule<ModuleOptions>({
     });
 
     // XXX: XXX: Extremely dirty hack for race condition
-    if (nuxt?.options?.vite?.warmupEntry !== false) {
+    if (nuxt.options.vite.warmupEntry !== false) {
       nuxt.hook('vite:serverCreated', async (server, env) => {
         const url = tmpl.dst;
         if (!env.isServer) await server.transformRequest(url, { ssr: env.isServer });
       });
     }
 
-    installModule('@nuxtjs/tailwindcss', {
-      ...(nuxt.options.tailwindcss || {}),
-      cssPath: tmpl.dst,
-    });
-
     // Additional modules
+    installModule('@nuxtjs/tailwindcss', {
+      ...nuxt.options.tailwindcss!,
+      cssPath: tmpl.dst, // XXX: failed on first time
+      exposeConfig: true,
+    });
     installModule('@vueuse/nuxt');
 
     // Load our components

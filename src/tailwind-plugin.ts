@@ -1,11 +1,10 @@
-import chroma from 'chroma-js';
 import plugin from 'tailwindcss/plugin.js';
 
 export default plugin(() => {}, {
   theme: {
     extend: {
       colors: ({ colors }: any) => ({
-        primary: `rgb(${chroma(colors.indigo['500']).rgb().join(' ')} / <alpha-value>)`,
+        primary: colors.indigo['500'],
       }),
     },
 
