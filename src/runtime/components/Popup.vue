@@ -6,7 +6,7 @@
     @keydown="updateRect()">
     <div
       ref="$trigger"
-      class="pointer-events-none [&>*]:pointer-events-auto"
+      class="pointer-events-none inline [&>*]:pointer-events-auto"
       :class="{ 'cursor-pointer': !props.disabled }"
       @click="toggle">
       <slot name="trigger" />

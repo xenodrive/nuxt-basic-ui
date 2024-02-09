@@ -1,5 +1,5 @@
 <template>
-  <div :class="props.triggerClass" @click.stop="show = !show">
+  <div :class="props.triggerClass" class="inline" @click.stop="show = !show">
     <slot name="trigger" />
   </div>
   <Teleport to="body">
