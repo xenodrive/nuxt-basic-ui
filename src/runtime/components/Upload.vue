@@ -8,9 +8,9 @@
 <script lang="ts" setup>
 import Button from './Button.vue';
 
-import { ref } from '#imports';
+import { ref, type Component } from '#imports';
 type Props = {
-  tag?: string;
+  tag?: string | Component;
 };
 const props = defineProps<Props>();
 const input = ref();

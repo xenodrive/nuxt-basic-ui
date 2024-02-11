@@ -1,5 +1,6 @@
 import {
   addComponentsDir,
+  addImportsDir,
   addPlugin,
   addTemplate,
   createResolver,
@@ -74,6 +75,9 @@ export default defineNuxtModule<ModuleOptions>({
       exposeConfig: true,
     });
     installModule('@vueuse/nuxt');
+
+    // Load our composables
+    addImportsDir(resolve('./runtime/composables'));
 
     // Load our components
     const path = resolve('./runtime/components');
