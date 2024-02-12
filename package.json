@@ -36,7 +36,7 @@
     "@mdi/font": "^7.4.47",
     "@nuintun/qrcode": "^3.4.0",
     "@nuxt/kit": "^3.10.1",
-    "@nuxtjs/tailwindcss": "^6.11.3",
+    "@nuxtjs/tailwindcss": "^6.11.4",
     "@types/chroma-js": "^2.4.4",
     "@vueuse/core": "^10.7.2",
     "@vueuse/nuxt": "^10.7.2",
