@@ -5,6 +5,7 @@ export default plugin(() => {}, {
     extend: {
       colors: ({ colors }: any) => ({
         primary: colors.indigo['500'],
+        invert: colors.white,
       }),
     },
 
