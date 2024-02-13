@@ -53,7 +53,7 @@ const props = withDefaults(
 const { notifications } = useNotification();
 
 function classNameFor(item: (typeof notifications.value)[0]) {
-  switch (item.message) {
+  switch (item.type) {
     default:
     case 'message':
       return twMerge('bg-slate-200', props.messageClass);
