@@ -29,7 +29,6 @@
     "type:check": "vue-tsc --noEmit --pretty"
   },
   "publishConfig": {
-    "access": "restricted",
     "registry": "https://npm.pkg.github.com/"
   },
   "dependencies": {
