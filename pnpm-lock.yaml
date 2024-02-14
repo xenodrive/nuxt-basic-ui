@@ -29,6 +29,9 @@ dependencies:
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
+  sass:
+    specifier: ^1.70.0
+    version: 1.70.0
   tailwind-merge:
     specifier: ^2.2.1
     version: 2.2.1
@@ -88,9 +91,6 @@ devDependencies:
   prettier-plugin-tailwindcss:
     specifier: ^0.5.11
     version: 0.5.11(prettier-plugin-organize-imports@3.2.4)(prettier@3.2.4)
-  sass:
-    specifier: ^1.70.0
-    version: 1.70.0
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
