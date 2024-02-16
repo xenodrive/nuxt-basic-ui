@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "#build/tailwind.css";
-
 @layer components {
   .disabled-style {
     @apply aria-disabled:cursor-not-allowed aria-disabled:bg-transparent aria-disabled:opacity-20 disabled:cursor-not-allowed disabled:opacity-20;

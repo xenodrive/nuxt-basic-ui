@@ -9,6 +9,8 @@ import {
   resolveFiles,
   useLogger,
 } from '@nuxt/kit';
+import fs from 'node:fs';
+import { dirname } from 'node:path';
 import tailwindPlugin from './tailwind-plugin.js';
 
 // Module options TypeScript interface definition
@@ -52,13 +54,19 @@ export default defineNuxtModule<ModuleOptions>({
 
     // XXX: Hijack user specified cssPath, or tailwindcss/tailwind.css
     const origCssPath = nuxt.options.tailwindcss?.cssPath ?? 'tailwindcss/tailwind.css';
-    const cssPath = (await resolveFiles(resolve('./runtime/assets/css/'), ['*.css', '*.scss']))?.[0] ?? origCssPath;
+    const cssFiles = await resolveFiles(resolve('./runtime/assets/css/'), ['*.css', '*.scss']);
 
-    addTemplate({
+    const getContents = () => [...cssFiles, origCssPath].map((f) => `@import '${f}';`).join('\n');
+    const tmpl = addTemplate({
       filename: 'tailwind.css',
       write: true,
-      getContents: () => `@import '${origCssPath}';\n`,
+      getContents,
     });
+
+    // XXX: write the CSS immediately
+    fs.mkdirSync(dirname(tmpl.dst), { recursive: true });
+    fs.writeFileSync(tmpl.dst, getContents());
+    const cssPath = tmpl.dst;
 
     // XXX: XXX: Workaround for a race condition.
     // https://github.com/nuxt-modules/tailwindcss/issues/802
