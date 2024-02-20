@@ -52,7 +52,6 @@ function getColorInfo(color: string | undefined, textColor: string | undefined) 
   const c = chroma(twColor(color));
   const isDark = c.luminance() < 0.5;
   const text = textColor ? twColor(textColor) : isDark ? theme('badge.dark.text') : theme('badge.light.text');
-  console.log(text, color, textColor, isDark);
   const textShadow = chroma(text).alpha(0.25);
 
   return {
