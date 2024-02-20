@@ -86,10 +86,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Load our composables
     addImportsDir(resolve('./runtime/composables'));
+    addImportsDir(resolve('./runtime/utils'));
 
     // Load our components
-    const path = resolve('./runtime/components');
-    addComponentsDir({ path });
+    addComponentsDir({ path: resolve('./runtime/components') });
 
     // Load our Plugins
     for (const plugin of await resolveFiles(resolve('./runtime/plugins/'), ['*.mjs', '*.ts'])) {

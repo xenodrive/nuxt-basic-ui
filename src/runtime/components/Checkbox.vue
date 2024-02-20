@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { computed } from '#imports';
 import chroma from 'chroma-js';
-import { twColor, type TwColor } from '../utils';
+import { twColor, type TwColor } from '../utils/twColor';
 
 const value = defineModel<boolean | undefined | null | number | string>({ default: undefined });
 type Props = {

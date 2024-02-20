@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { computed, useSlots } from '#imports';
 import chroma from 'chroma-js';
-import { twColor, type TwColor } from '../utils';
+import { theme, twColor, type TwColor } from '../utils/twColor';
 
 const $slots = useSlots();
 
@@ -51,12 +51,14 @@ function getColorInfo(color: string | undefined, textColor: string | undefined) 
 
   const c = chroma(twColor(color));
   const isDark = c.luminance() < 0.5;
-  const text = chroma(textColor ? twColor(textColor) : c.luminance(isDark ? 0.9 : 0.1));
+  const text = textColor ? twColor(textColor) : isDark ? theme('badge.dark.text') : theme('badge.light.text');
+  console.log(text, color, textColor, isDark);
+  const textShadow = chroma(text).alpha(0.25);
 
   return {
     background: c.hex(),
-    text: text.hex(),
-    textShadow: text.alpha(0.25).hex(),
+    text: text,
+    textShadow: textShadow.hex(),
   };
 }
 

@@ -70,18 +70,30 @@ export default plugin(() => {}, {
     }),
 
     tag: ({ theme }) => ({
+      dark: {
+        text: theme('colors.slate.100'),
+      },
+      light: {
+        text: theme('colors.slate.900'),
+      },
       background: theme('colors.slate.200'),
-      text: theme('colors.slate.800'),
+      text: theme('colors.slate.900'),
     }),
 
     badge: ({ theme }) => ({
+      dark: {
+        text: theme('colors.slate.100'),
+      },
+      light: {
+        text: theme('colors.slate.900'),
+      },
       title: {
         background: theme('colors.slate.800'),
-        text: theme('colors.slate.200'),
+        text: theme('colors.slate.100'),
       },
       value: {
         background: theme('colors.slate.200'),
-        text: theme('colors.slate.800'),
+        text: theme('colors.slate.900'),
       },
     }),
   } satisfies Partial<CustomThemeConfig & { extend: Partial<CustomThemeConfig> }>,

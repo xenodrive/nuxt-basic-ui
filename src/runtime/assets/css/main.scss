@@ -73,14 +73,14 @@
       background-color: var(--title-background-color);
 
       @apply px-1 py-0.5;
-      text-shadow: 1px 1px var(--title-text-shadow-color);;
+      text-shadow: 0px 1px var(--title-text-shadow-color);;
     }
     .value {
       color: var(--value-text-color);
       background-color: var(--value-background-color);
 
       @apply px-1 py-0.5;
-      text-shadow: 1px 1px var(--value-text-shadow-color);
+      text-shadow: 0px 1px var(--value-text-shadow-color);
     }
   }
 

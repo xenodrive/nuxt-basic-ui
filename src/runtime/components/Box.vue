@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { computed } from '#imports';
-import { twColor, type TwColor } from '../utils';
+import { twColor, type TwColor } from '../utils/twColor';
 
 type Props = {
   label?: string;

@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from '#imports';
-import { twColor, type TwColor, theme } from '../utils';
+import { twColor, type TwColor, theme } from '../utils/twColor';
 import chroma from 'chroma-js';
 
 const checked = defineModel<boolean>('checked', { default: false });

@@ -33,7 +33,7 @@ export function twColor(name: TwColor | string | undefined) {
 }
 
 export type TwConfig = ExpandTailwindConfig<typeof themeObj, '.'>;
-export function theme(name: TwConfig) {
+export function theme(name: TwConfig): string {
   const parts = name.split('.');
-  return parts.reduce((acc, val) => acc && (acc as any)?.[val], themeObj);
+  return parts.reduce((acc, val) => acc && (acc as any)?.[val], themeObj) as any;
 }
