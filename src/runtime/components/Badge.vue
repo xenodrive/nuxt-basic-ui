@@ -1,16 +1,16 @@
 <template>
   <span
-    class="badge inline-flex flex-none select-none items-center overflow-hidden whitespace-nowrap"
+    class="badge inline-flex h-fit w-fit flex-none select-none overflow-hidden whitespace-nowrap"
     :class="props.class"
     :style="style">
     <span
       v-if="$slots.title || props.title || props.icon"
-      class="title inline-flex h-full items-center"
+      class="title inline-flex items-center gap-0.5"
       :class="props.classTitle">
       <Icon v-if="props.icon" :name="props.icon" />
       <slot name="title">{{ props.title }}</slot>
     </span>
-    <span class="value inline-flex h-full items-center" :class="props.classValue">
+    <span class="value inline-flex items-center gap-0.5" :class="props.classValue">
       <Icon v-if="props.iconValue" :name="props.iconValue" />
       <slot>{{ props.value }}</slot>
     </span>
