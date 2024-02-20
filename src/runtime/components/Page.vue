@@ -14,7 +14,7 @@ const props = defineProps<Props>();
 
 <style lang="scss" scoped>
 .page {
-  @apply relative mx-auto min-h-full w-full max-w-screen-xl p-4;
+  @apply relative mx-auto min-h-full w-full min-w-fit max-w-screen-xl p-4;
 
   :deep(h1) {
     @apply flex items-center gap-4 text-lg font-bold;
