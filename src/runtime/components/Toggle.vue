@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from '#imports';
-import { twColor, type TwColor, theme } from '../utils/twColor';
+import { twcolor, type TwColor, theme } from '../utils/twcolor';
 import chroma from 'chroma-js';
 
 const checked = defineModel<boolean>('checked', { default: false });
@@ -33,7 +33,7 @@ const knobColor = computed(() => {
 
   return String(props.knobColor)
     .split(/[\s,]+/)
-    .map((c) => twColor(c));
+    .map((c) => twcolor(c));
 });
 
 const ringColor = computed(() => {
@@ -46,7 +46,7 @@ const toggleColor = computed(() => {
 
   return String(props.color)
     .split(/[\s,]+/)
-    .map((c) => twColor(c));
+    .map((c) => twcolor(c));
 });
 
 const style = computed(() => ({

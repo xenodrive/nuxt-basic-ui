@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import { computed } from '#imports';
 import chroma from 'chroma-js';
-import { theme, twColor } from '../utils/twColor';
+import { theme, twcolor } from '../utils/twcolor';
 
 type Props = {
   color?: string;
@@ -32,10 +32,10 @@ const props = defineProps<Props>();
 function getColorInfo(color: string | undefined, textColor: string | undefined) {
   if (!color) return {};
 
-  const c = chroma(twColor(color));
+  const c = chroma(twcolor(color));
   const isDark = c.luminance() < 0.5;
 
-  const text = chroma(textColor ? twColor(textColor) : isDark ? theme('tag.dark.text') : theme('tag.light.text'));
+  const text = chroma(textColor ? twcolor(textColor) : isDark ? theme('tag.dark.text') : theme('tag.light.text'));
 
   return {
     background: c.hex(),
@@ -47,7 +47,7 @@ const style = computed(() => {
   const main = getColorInfo(props.color, props.colorText);
 
   return {
-    outline: props.outline && `1px solid ${twColor(props.outline)}`,
+    outline: props.outline && `1px solid ${twcolor(props.outline)}`,
     '--text-color': main.text,
     '--background-color': main.background,
   };

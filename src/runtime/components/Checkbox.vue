@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { computed } from '#imports';
 import chroma from 'chroma-js';
-import { twColor, type TwColor } from '../utils/twColor';
+import { twcolor, type TwColor } from '../utils/twcolor';
 
 const value = defineModel<boolean | undefined | null | number | string>({ default: undefined });
 type Props = {
@@ -50,7 +50,7 @@ function onClick() {
 }
 
 const color = computed(() => {
-  return props.color && chroma(twColor(props.color)).rgb().join(' ');
+  return props.color && chroma(twcolor(props.color)).rgb().join(' ');
 });
 </script>
 

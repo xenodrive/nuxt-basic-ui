@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { computed, useSlots } from '#imports';
 import chroma from 'chroma-js';
-import { theme, twColor, type TwColor } from '../utils/twColor';
+import { theme, twcolor, type TwColor } from '../utils/twcolor';
 
 const $slots = useSlots();
 
@@ -49,9 +49,9 @@ const props = defineProps<Props>();
 function getColorInfo(color: string | undefined, textColor: string | undefined) {
   if (!color) return {};
 
-  const c = chroma(twColor(color));
+  const c = chroma(twcolor(color));
   const isDark = c.luminance() < 0.5;
-  const text = textColor ? twColor(textColor) : isDark ? theme('badge.dark.text') : theme('badge.light.text');
+  const text = textColor ? twcolor(textColor) : isDark ? theme('badge.dark.text') : theme('badge.light.text');
   const textShadow = chroma(text).alpha(0.25);
 
   return {
@@ -66,7 +66,7 @@ const style = computed(() => {
   const value = getColorInfo(props.color, props.colorText);
 
   return {
-    outline: props.outline && `1px solid ${twColor(props.outline)}`,
+    outline: props.outline && `1px solid ${twcolor(props.outline)}`,
     '--title-text-color': title.text,
     '--title-text-shadow-color': title.textShadow,
     '--title-background-color': title.background,

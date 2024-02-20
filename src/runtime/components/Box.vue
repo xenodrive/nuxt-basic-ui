@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { computed } from '#imports';
-import { twColor, type TwColor } from '../utils/twColor';
+import { twcolor, type TwColor } from '../utils/twcolor';
 
 type Props = {
   label?: string;
@@ -40,7 +40,7 @@ function open() {
 }
 
 const strikeColor = computed(() => {
-  return props.strikeColor ? twColor(props.strikeColor) : 'white';
+  return props.strikeColor ? twcolor(props.strikeColor) : 'white';
 });
 </script>
 
