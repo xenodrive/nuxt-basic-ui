@@ -1,8 +1,24 @@
 <template>
-  <label class="relative inline-flex cursor-pointer items-center">
-    <input ref="$checkbox" v-model="checked" type="checkbox" value="1" class="peer sr-only" />
-    <div class="toggle-switch rounded-full transition-all after:rounded-full after:transition-all" :style="style" />
-    <span class="ml-2 select-none"><slot /></span>
+  <label
+    class="relative inline-flex"
+    style="align-items: last baseline"
+    :class="{ 'cursor-pointer': !props.disabled && !props.readonly }"
+    :aria-disabled="props.disabled">
+    <input
+      ref="$checkbox"
+      v-model="checked"
+      type="checkbox"
+      value="1"
+      class="peer sr-only"
+      :disabled="props.disabled || props.readonly" />
+
+    <div class="inline-flex items-center">
+      <div
+        class="toggle-switch rounded-full leading-[0] transition-all after:rounded-full after:transition-all aria-disabled:opacity-50 aria-disabled:saturate-0"
+        :style="style"
+        :aria-disabled="props.disabled" />
+      <span class="ml-1 select-none aria-disabled:opacity-30" :aria-disabled="props.disabled"><slot /></span>
+    </div>
   </label>
 </template>
 
@@ -11,12 +27,13 @@ import { ref, computed } from '#imports';
 import { twcolor, type TwColor, theme } from '../utils/twcolor';
 import chroma from 'chroma-js';
 
-const checked = defineModel<boolean>('checked', { default: false });
-
+const checked = defineModel<boolean>({ default: false });
 const props = withDefaults(
   defineProps<{
     color?: TwColor | `${TwColor},${TwColor}`;
     knobColor?: TwColor | `${TwColor},${TwColor}`;
+    readonly?: boolean;
+    disabled?: boolean;
 
     size?: string;
     width?: string;
@@ -26,6 +43,7 @@ const props = withDefaults(
   }>(),
   {},
 );
+
 const $checkbox = ref<HTMLInputElement>();
 
 const knobColor = computed(() => {
@@ -81,7 +99,7 @@ const style = computed(() => ({
   height: var(--toggle-height);
   outline: var(--toggle-knob-padding) solid transparent;
   outline-offset: 0;
-  margin: max(0px, calc((var(--toggle-knob-diameter) - var(--toggle-height)) / 2 + 1px));
+  margin: max(0px, calc((var(--toggle-knob-diameter) - var(--toggle-height)) / 2));
   background-color: var(--toggle-color-off);
 
   &:after {
@@ -96,14 +114,14 @@ const style = computed(() => ({
     background-color: var(--toggle-knob-color-off);
   }
 }
-.peer:checked ~ .toggle-switch {
+.peer:checked ~ div > .toggle-switch {
   background-color: var(--toggle-color-on);
   &:after {
     transform: translate(calc(var(--toggle-width) - var(--toggle-knob-diameter) - var(--toggle-knob-padding)), 0);
     background-color: var(--toggle-knob-color-on);
   }
 }
-.peer:hover ~ .toggle-switch,
+.peer:hover ~ div > .toggle-switch,
 .toggle-switch:hover {
   outline-width: var(--toggle-ring-width);
   outline-style: solid;
