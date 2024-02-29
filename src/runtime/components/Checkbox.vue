@@ -5,7 +5,7 @@
     :aria-disabled="props.disabled"
     @click="onClick">
     <Icon class="icon" :icon="icon" :class="{ override: !!color }" />
-    <div class="ml-0.5 select-none" :aria-disabled="props.disabled"><slot /></div>
+    <div class="ml-0.5 select-none first:ml-0" :aria-disabled="props.disabled"><slot /></div>
   </label>
 </template>
 
@@ -14,7 +14,7 @@ import { computed } from '#imports';
 import chroma from 'chroma-js';
 import { twcolor, type TwColor } from '../utils/twcolor';
 
-const value = defineModel<boolean | undefined | null | number | string>({ default: undefined });
+const value = defineModel<boolean | undefined | null | number | string>();
 type Props = {
   readonly?: boolean;
   disabled?: boolean;
