@@ -18,6 +18,7 @@
         :type="inputType"
         class="inline-block bg-transparent focus:outline-none disabled:cursor-not-allowed disabled:text-gray-500"
         :class="[prependExists ? 'pl-8' : '', appendExists ? 'pr-8' : '']"
+        style="text-align: inherit"
         :placeholder="props.placeholder"
         :size="props.size"
         :maxlength="props.maxlength ?? props.size"

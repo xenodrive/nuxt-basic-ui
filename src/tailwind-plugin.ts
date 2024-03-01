@@ -7,6 +7,7 @@ interface CustomThemeConfig extends ThemeConfig {
   dropdown: ResolvableTo<RecursiveKeyValuePair>;
   tag: ResolvableTo<RecursiveKeyValuePair>;
   badge: ResolvableTo<RecursiveKeyValuePair>;
+  dialog: ResolvableTo<RecursiveKeyValuePair>;
 }
 
 export default plugin(() => {}, {
@@ -96,5 +97,14 @@ export default plugin(() => {}, {
         text: theme('colors.slate.900'),
       },
     }),
+
+    dialog: {
+      commit: {
+        label: 'OK',
+      },
+      cancel: {
+        label: 'Cancel',
+      },
+    },
   } satisfies Partial<CustomThemeConfig & { extend: Partial<CustomThemeConfig> }>,
 });

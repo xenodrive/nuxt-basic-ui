@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from '#imports';
-import { twMerge } from 'tailwind-merge';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 // TODO:
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
   hoverIcon?: string;
   loading?: boolean;
 
-  class?: string;
+  class?: ClassNameValue;
 };
 const props = defineProps<Props>();
 

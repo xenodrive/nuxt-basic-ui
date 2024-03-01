@@ -87,4 +87,10 @@
   .box {
     @apply rounded mt-1 p-2;
   }
+
+  .dialog {
+    .commit {
+      @apply bg-primary text-invert;
+    }
+  }
 }
