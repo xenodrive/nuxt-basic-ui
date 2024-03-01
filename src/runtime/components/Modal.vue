@@ -10,11 +10,10 @@
       style="z-index: 9999"
       @click.stop="close()">
       <div
-        v-if="!props.closeable"
         class="relative h-fit max-h-full w-fit max-w-full overflow-y-auto overflow-x-hidden rounded-lg bg-white p-2 shadow-xl"
         v-bind="$attrs"
         @click.stop>
-        <slot name="close" :close="close">
+        <slot v-if="props.closeable" name="close" :close="close">
           <div class="absolute right-2 top-1 cursor-pointer" @click="close()">
             <Icon name="close" />
           </div>
