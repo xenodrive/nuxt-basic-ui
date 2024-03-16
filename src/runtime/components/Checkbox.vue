@@ -10,28 +10,35 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from '#imports';
+import { computed, watch } from '#imports';
 import chroma from 'chroma-js';
 import { twcolor, type TwColor } from '../utils/twcolor';
 
-const value = defineModel<boolean | undefined | null | number | string>();
+const modelValue = defineModel<any>();
+const selected = defineModel<any[]>('selected');
 type Props = {
   readonly?: boolean;
   disabled?: boolean;
-  triState?: boolean | null | number | string;
+  triState?: any;
   color?: TwColor;
+
+  value?: any;
 };
-const props = defineProps<Props>();
+
+const props = withDefaults(defineProps<Props>(), {
+  triState: false,
+  value: true,
+});
 
 const triStateValue = computed(() => {
   return typeof props.triState === 'boolean' ? undefined : props.triState;
 });
 
 const icon = computed(() => {
-  return typeof value.value !== 'boolean'
-    ? 'minus-box-outline'
-    : value.value
-      ? 'checkbox-marked'
+  return modelValue.value === props.value
+    ? 'checkbox-marked'
+    : modelValue.value === triStateValue.value
+      ? 'minus-box-outline'
       : 'checkbox-blank-outline';
 });
 
@@ -39,15 +46,39 @@ function onClick() {
   if (props.disabled || props.readonly) return;
 
   // true -> (undefined ->) false -> true
-  value.value =
-    value.value === true
+  modelValue.value =
+    modelValue.value === props.value
       ? props.triState !== false
         ? triStateValue.value
         : false
-      : typeof value.value !== 'boolean'
+      : modelValue.value !== false
         ? false
-        : true;
+        : props.value;
+
+  if (selected.value) {
+    if (modelValue.value === props.value) {
+      if (selected.value.indexOf(props.value) < 0) {
+        selected.value.push(props.value);
+      }
+    } else if (modelValue.value === false) {
+      const idx = selected.value.indexOf(props.value);
+      if (idx >= 0) {
+        selected.value.splice(idx, 1);
+      }
+    }
+  }
 }
+
+watch(
+  selected,
+  () => {
+    if (selected.value) {
+      const idx = selected.value.indexOf(props.value);
+      modelValue.value = idx >= 0 ? props.value : false;
+    }
+  },
+  { immediate: true },
+);
 
 const color = computed(() => {
   return props.color && chroma(twcolor(props.color)).rgb().join(' ');
