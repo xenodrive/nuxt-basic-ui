@@ -24,14 +24,17 @@ type Props = {
 
   value?: any;
 };
-
 const props = withDefaults(defineProps<Props>(), {
   triState: false,
   value: true,
 });
 
+// XXX: initial values
+if (modelValue.value === '') modelValue.value = props.value;
+if (modelValue.value === undefined && props.triState === false) modelValue.value = false;
+
 const triStateValue = computed(() => {
-  return typeof props.triState === 'boolean' ? undefined : props.triState;
+  return typeof props.triState === 'boolean' || props.triState === '' ? undefined : props.triState;
 });
 
 const icon = computed(() => {

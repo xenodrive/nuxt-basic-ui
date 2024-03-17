@@ -2,6 +2,7 @@
   <div>
     <div class="flex flex-col">
       <Checkbox model-value>Hello</Checkbox>
+      <Checkbox tri-state>Hello (tri-state)</Checkbox>
       <Checkbox color="red-500" model-value>Hello</Checkbox>
       <Checkbox color="red-500" model-value readonly>Hello readonly</Checkbox>
       <Checkbox color="red-500" model-value disabled>Hello disabled</Checkbox>

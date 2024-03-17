@@ -4,5 +4,13 @@
     <Tag color="red-500" class="px-2">Tag</Tag>
     <Tag color="yellow-400">Tag</Tag>
     <Tag icon="map-marker" color="indigo-200">Tag</Tag>
+    <Tag class="text-lg" icon="map-marker" color="indigo-200">Tag</Tag>
+  </div>
+  <div>
+    <Tag>Tag</Tag>
+    <Tag color="red-500" class="px-2">Tag</Tag>
+    <Tag color="yellow-400">Tag</Tag>
+    <Tag icon="map-marker" color="indigo-200">Tag</Tag>
+    <Tag class="text-lg" icon="map-marker" color="indigo-200">Tag</Tag>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <span
-    class="tag inline-flex select-none items-center gap-1 overflow-hidden whitespace-nowrap"
+    class="tag inline-flex select-none items-baseline gap-1 overflow-hidden whitespace-nowrap"
     :class="props.class"
     :style="style">
     <Icon v-if="props.icon" :name="props.icon" />

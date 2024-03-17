@@ -2,7 +2,7 @@
   <div
     ref="$el"
     v-window-event:click.outside.capture.passive="onClickOutside"
-    class="pointer-events-none"
+    class="pointer-events-none inline"
     @keydown="updateRect()">
     <div
       ref="$trigger"

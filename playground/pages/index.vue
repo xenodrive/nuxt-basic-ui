@@ -7,5 +7,6 @@
     <li><NuxtLink to="/tag" class="underline">Tag</NuxtLink></li>
     <li><NuxtLink to="/badge" class="underline">Badge</NuxtLink></li>
     <li><NuxtLink to="/notification" class="underline">Notification</NuxtLink></li>
+    <li><NuxtLink to="/input-tags" class="underline">InputTags</NuxtLink></li>
   </ul>
 </template>

@@ -10,7 +10,8 @@
       "types": "./types.d.ts",
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
-    }
+    },
+    "./*": "./dist/runtime/*"
   },
   "main": "./dist/module.cjs",
   "types": "./types.d.ts",

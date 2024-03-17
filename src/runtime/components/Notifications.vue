@@ -2,7 +2,7 @@
   <Teleport :to="props.teleport">
     <div
       class="pointer-events-none"
-      :class="twMerge('fixed left-0 right-0 top-4 flex flex-col items-center justify-center gap-2', props.class)">
+      :class="twMerge('fixed left-0 right-0 top-4 z-50 flex flex-col items-center justify-center gap-2', props.class)">
       <template v-for="item in notifications" :key="item.id">
         <Transition :name="props.transitionName" appear>
           <div
