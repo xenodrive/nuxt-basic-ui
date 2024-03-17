@@ -8,5 +8,6 @@
     <li><NuxtLink to="/badge" class="underline">Badge</NuxtLink></li>
     <li><NuxtLink to="/notification" class="underline">Notification</NuxtLink></li>
     <li><NuxtLink to="/input-tags" class="underline">InputTags</NuxtLink></li>
+    <li><NuxtLink to="/qr" class="underline">QR</NuxtLink></li>
   </ul>
 </template>

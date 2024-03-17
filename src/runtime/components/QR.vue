@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import { computed } from '#imports';
-import { Encoder } from '@nuintun/qrcode';
+import { Byte, Encoder } from '@nuintun/qrcode';
 
 type Props = {
   code: string;
@@ -23,10 +23,6 @@ const src = computed(() => {
   if (!props.code) return undefined;
 
   const qrcode = new Encoder();
-  qrcode.setEncodingHint(true);
-  qrcode.write(props.code);
-  qrcode.make();
-
-  return qrcode.toDataURL(props.size);
+  return qrcode.encode(new Byte(props.code)).toDataURL(props.size);
 });
 </script>
