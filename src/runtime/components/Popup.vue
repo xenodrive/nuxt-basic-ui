@@ -9,7 +9,9 @@
       ref="$trigger"
       class="pointer-events-none inline [&>*]:pointer-events-auto"
       :class="{ 'cursor-pointer': !props.disabled }"
-      @click="toggle">
+      @click="onClick()"
+      @mouseenter="onHover(true)"
+      @mouseleave="onHover(false)">
       <slot name="trigger" />
     </div>
 
@@ -68,6 +70,8 @@ type Props = {
   popupClass?: any;
 
   class?: ClassNameValue;
+
+  hover?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -211,6 +215,18 @@ function open() {
 function close() {
   isActive.value = false;
 }
+
+function onClick() {
+  if (props.hover) return;
+  toggle();
+}
+
+function onHover(hover: boolean) {
+  if (!props.hover) return;
+  if (props.disabled) return;
+  isActive.value = hover;
+}
+
 function toggle() {
   if (props.disabled) return;
   isActive.value = !isActive.value;
