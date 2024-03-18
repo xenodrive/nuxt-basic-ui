@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex items-center gap-1" @click="onClick()">
+  <div :class="twMerge('inline-flex items-center gap-1', props.class)" @click="onClick()">
     <div v-if="prependExists" class="flex items-center justify-center">
       <slot name="prepend">
         <Icon
@@ -78,6 +78,7 @@
 
 <script lang="ts" setup generic="T extends Tag">
 import { computed, ref, useSlots } from '#imports';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 export type Tag = {
   name: string;
@@ -100,6 +101,8 @@ type Props = {
   // dropdown
   inactive?: boolean;
   selectFirstCandidateOnEnterKey?: boolean;
+
+  class?: ClassNameValue;
 };
 const props = defineProps<Props>();
 

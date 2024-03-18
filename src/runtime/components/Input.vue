@@ -1,6 +1,6 @@
 <template>
-  <div class="relative inline-flex flex-col" @click="focus">
-    <div class="inline-flex items-baseline" :class="twMerge('', props.inputClass)">
+  <div :class="twMerge('relative inline-flex flex-col', props.class)" @click="focus">
+    <div :class="twMerge('inline-flex items-baseline', props.inputClass)">
       <div v-if="prependExists" class="absolute bottom-0 left-0 top-0 flex w-8 items-center justify-center">
         <slot name="prepend">
           <Icon
@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, nextTick, computed, useSlots } from '#imports';
-import { twMerge } from 'tailwind-merge';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 type Props = {
   type?: 'string' | 'text' | 'list' | 'number' | 'password';
@@ -64,7 +64,8 @@ type Props = {
 
   disabled?: boolean;
 
-  inputClass?: string;
+  class?: ClassNameValue;
+  inputClass?: ClassNameValue;
 
   autocomplete?: boolean | string;
 

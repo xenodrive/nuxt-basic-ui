@@ -1,7 +1,7 @@
 <template>
   <span
-    class="tag inline-flex select-none items-baseline gap-1 overflow-hidden whitespace-nowrap"
-    :class="props.class"
+    class="tag"
+    :class="twMerge('inline-flex select-none items-baseline gap-1 overflow-hidden whitespace-nowrap', props.class)"
     :style="style">
     <Icon v-if="props.icon" :name="props.icon" />
     <slot>{{ props.name }}</slot>
@@ -12,6 +12,7 @@
 import { computed } from '#imports';
 import chroma from 'chroma-js';
 import { theme, twcolor } from '../utils/twcolor';
+import { twMerge } from 'tailwind-merge';
 
 type Props = {
   color?: string;

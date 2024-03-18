@@ -1,7 +1,10 @@
 <template>
   <label
-    class="checkbox inline-flex items-center"
-    :class="{ 'cursor-pointer': !props.disabled && !props.readonly }"
+    class="checkbox"
+    :class="[
+      { 'cursor-pointer': !props.disabled && !props.readonly },
+      twMerge('inline-flex items-center', props.class),
+    ]"
     :aria-disabled="props.disabled"
     @click="onClick">
     <Icon class="icon" :icon="icon" :class="{ override: !!color }" />
@@ -13,6 +16,7 @@
 import { computed, watch } from '#imports';
 import chroma from 'chroma-js';
 import { twcolor, type TwColor } from '../utils/twcolor';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 const modelValue = defineModel<any>();
 const selected = defineModel<any[]>('selected');
@@ -23,6 +27,7 @@ type Props = {
   color?: TwColor;
 
   value?: any;
+  class?: ClassNameValue;
 };
 const props = withDefaults(defineProps<Props>(), {
   triState: false,

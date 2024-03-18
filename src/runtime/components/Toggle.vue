@@ -1,8 +1,7 @@
 <template>
   <label
-    class="relative inline-flex"
+    :class="[{ 'cursor-pointer': !props.disabled && !props.readonly }, twMerge('relative inline-flex', props.class)]"
     style="align-items: last baseline"
-    :class="{ 'cursor-pointer': !props.disabled && !props.readonly }"
     :aria-disabled="props.disabled">
     <input
       ref="$checkbox"
@@ -24,6 +23,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from '#imports';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 import { twcolor, type TwColor, theme } from '../utils/twcolor';
 import chroma from 'chroma-js';
 
@@ -40,6 +40,8 @@ const props = withDefaults(
     height?: string;
     knobSize?: string;
     ringSize?: string;
+
+    class?: ClassNameValue;
   }>(),
   {},
 );

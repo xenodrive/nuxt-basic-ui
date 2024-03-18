@@ -2,7 +2,8 @@
   <div
     ref="$el"
     v-window-event:click.outside.capture.passive="onClickOutside"
-    class="pointer-events-none inline"
+    class="pointer-events-none"
+    :class="twMerge('inline', props.class)"
     @keydown="updateRect()">
     <div
       ref="$trigger"
@@ -31,6 +32,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch, computed } from '#imports';
 import { useResizeObserver } from '@vueuse/core';
+import { type ClassNameValue, twMerge } from 'tailwind-merge';
 
 const $el = ref<HTMLElement>();
 const $popup = ref<HTMLElement>();
@@ -64,6 +66,8 @@ type Props = {
 
   disabled?: boolean;
   popupClass?: any;
+
+  class?: ClassNameValue;
 };
 
 const props = withDefaults(defineProps<Props>(), {

@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { computed, useAttrs } from '#imports';
-import { twMerge } from 'tailwind-merge';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 defineOptions({
   inheritAttrs: false,
 });
@@ -46,7 +46,7 @@ type Props = {
 
   size?: 'small' | 'large';
 
-  class?: string;
+  class?: ClassNameValue;
 };
 const props = withDefaults(defineProps<Props>(), {
   size: 'large',

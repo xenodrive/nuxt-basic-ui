@@ -1,5 +1,5 @@
 <template>
-  <div :class="props.triggerClass" class="inline" @click.stop="show = !show">
+  <div :class="twMerge('inline', props.triggerClass)" @click.stop="show = !show">
     <slot name="trigger" />
   </div>
   <Teleport to="body">
@@ -26,13 +26,14 @@
 
 <script lang="ts" setup>
 import { ref, watch } from '#imports';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 defineOptions({
   inheritAttrs: false,
 });
 interface Props {
   modelValue?: boolean;
   closeable?: boolean;
-  triggerClass?: unknown;
+  triggerClass?: ClassNameValue;
 }
 const props = withDefaults(defineProps<Props>(), {
   modelValue: false,

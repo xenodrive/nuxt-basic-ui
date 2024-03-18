@@ -1,7 +1,7 @@
 <template>
   <span
-    class="badge inline-flex h-fit w-fit flex-none select-none overflow-hidden whitespace-nowrap"
-    :class="props.class"
+    class="badge"
+    :class="twMerge('inline-flex h-fit w-fit flex-none select-none overflow-hidden whitespace-nowrap', props.class)"
     :style="style">
     <span
       v-if="$slots.title || props.title || props.icon"
@@ -21,6 +21,7 @@
 import { computed, useSlots } from '#imports';
 import chroma from 'chroma-js';
 import { theme, twcolor, type TwColor } from '../utils/twcolor';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 const $slots = useSlots();
 
@@ -36,9 +37,9 @@ type Props = {
   title?: string;
   value?: string;
 
-  class?: string;
-  classTitle?: string;
-  classValue?: string;
+  class?: ClassNameValue;
+  classTitle?: ClassNameValue;
+  classValue?: ClassNameValue;
 
   icon?: string;
   iconValue?: string;
