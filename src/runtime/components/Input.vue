@@ -13,8 +13,8 @@
 
       <input
         ref="$input"
-        v-model="value"
         v-focus="props.autofocus"
+        :value="value"
         :type="inputType"
         class="inline-block bg-transparent focus:outline-none disabled:cursor-not-allowed disabled:text-gray-500"
         :class="[prependExists ? 'pl-8' : '', appendExists ? 'pr-8' : '']"
@@ -29,6 +29,7 @@
         :autocomplete="String(props.autocomplete)"
         @focus="emit('focus', $event)"
         @click="emit('click', $event)"
+        @input="onInput"
         @keydown="onKeydown" />
 
       <div v-if="appendExists" class="absolute bottom-0 right-0 top-0 flex w-8 items-center justify-center">
@@ -128,6 +129,10 @@ const $slots = useSlots();
 
 const prependExists = computed(() => Boolean($slots.prepend ?? props.iconPrepend));
 const appendExists = computed(() => Boolean($slots.append ?? props.iconAppend));
+
+function onInput(e: Event) {
+  value.value = (e.target as HTMLInputElement).value;
+}
 
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Backspace' && value.value === '') {
