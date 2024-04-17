@@ -72,6 +72,7 @@ type Props = {
   class?: ClassNameValue;
 
   hover?: boolean;
+  noTrigger?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -218,6 +219,7 @@ function close() {
 
 function onClick() {
   if (props.hover) return;
+  if (props.noTrigger) return;
   toggle();
 }
 

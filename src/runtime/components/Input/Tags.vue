@@ -40,6 +40,7 @@
 
       <Dropdown
         v-model:active="active"
+        no-trigger
         :inactive="props.inactive"
         :select-first-candidate-on-enter-key="props.selectFirstCandidateOnEnterKey"
         :margin="6"
@@ -56,7 +57,7 @@
             @backspace-on-empty="remove()"
             @typing="active = true"
             @focus="onInputFocus"
-            @click.stop="onInputClick"
+            @mousedown="onMouseDown"
             @escape="emit('escape')" />
         </template>
         <slot />
@@ -133,18 +134,12 @@ function remove(idx?: number) {
   }
 }
 
-const dontActivate = ref(false);
-function onInputFocus(e: Event) {
+function onInputFocus(e: FocusEvent) {
   emit('focus', e);
-
-  dontActivate.value = true;
-  setTimeout(() => {
-    dontActivate.value = false;
-  }, 100);
 }
 
-function onInputClick() {
-  if (!dontActivate.value) {
+function onMouseDown(e: Event) {
+  if (document.activeElement === e.target) {
     // toggle
     active.value = !active.value;
   }
