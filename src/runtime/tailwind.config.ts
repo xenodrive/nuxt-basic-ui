@@ -1,4 +1,3 @@
-import plugin from 'tailwindcss/plugin.js';
 import type { RecursiveKeyValuePair, ResolvableTo, ThemeConfig } from 'tailwindcss/types/config';
 
 interface CustomThemeConfig extends ThemeConfig {
@@ -10,7 +9,7 @@ interface CustomThemeConfig extends ThemeConfig {
   dialog: ResolvableTo<RecursiveKeyValuePair>;
 }
 
-export default plugin(() => {}, {
+export default {
   theme: {
     extend: {
       colors: ({ colors }: any) => ({
@@ -107,4 +106,4 @@ export default plugin(() => {}, {
       },
     },
   } satisfies Partial<CustomThemeConfig & { extend: Partial<CustomThemeConfig> }>,
-});
+};

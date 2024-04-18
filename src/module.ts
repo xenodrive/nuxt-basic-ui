@@ -11,7 +11,6 @@ import {
 } from '@nuxt/kit';
 import fs from 'node:fs';
 import { dirname } from 'node:path';
-import tailwindPlugin from './tailwind-plugin.js';
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {}
@@ -40,16 +39,14 @@ export default defineNuxtModule<ModuleOptions>({
       'tailwindcss/colors',
     ];
 
-    // Tailwind
-    nuxt.hook('tailwindcss:config', function (config) {
-      if (config && Array.isArray(config.content)) {
-        config.content.push(resolve('./runtime') + '/**/*.{vue,js,ts}');
-      }
-
-      if (!config.presets) config.presets = [];
-      config.presets.push({
-        plugins: [tailwindPlugin],
-      });
+    // Add runtime as a layer
+    nuxt.options._layers.push({
+      config: {
+        rootDir: resolve('./runtime'),
+        srcDir: resolve('./runtime'),
+      },
+      configFile: 'nuxt.config',
+      cwd: resolve('./runtime'),
     });
 
     // XXX: Hijack user specified cssPath, or tailwindcss/tailwind.css
