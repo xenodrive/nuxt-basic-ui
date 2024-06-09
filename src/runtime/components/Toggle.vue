@@ -11,12 +11,16 @@
       class="peer sr-only"
       :disabled="props.disabled || props.readonly" />
 
-    <div class="inline-flex items-center">
+    <div :class="twMerge('inline-flex items-center gap-1', props.innerClass)">
       <div
-        class="toggle-switch rounded-full leading-[0] transition-all after:rounded-full after:transition-all aria-disabled:opacity-50 aria-disabled:saturate-0"
+        class="toggle-switch order-5 rounded-full leading-[0] transition-all after:rounded-full after:transition-all aria-disabled:opacity-50 aria-disabled:saturate-0"
         :style="style"
         :aria-disabled="props.disabled" />
-      <span class="ml-1 select-none aria-disabled:opacity-30" :aria-disabled="props.disabled"><slot /></span>
+      <span
+        :class="twMerge('order-6 select-none aria-disabled:opacity-30', props.labelClass)"
+        :aria-disabled="props.disabled"
+        ><slot
+      /></span>
     </div>
   </label>
 </template>
@@ -35,13 +39,14 @@ const props = withDefaults(
     readonly?: boolean;
     disabled?: boolean;
 
-    size?: string;
     width?: string;
     height?: string;
     knobSize?: string;
     ringSize?: string;
 
     class?: ClassNameValue;
+    innerClass?: ClassNameValue;
+    labelClass?: ClassNameValue;
   }>(),
   {},
 );
