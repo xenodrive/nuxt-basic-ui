@@ -4,7 +4,7 @@
     <Checkbox checked tri-state color="red-500">Hello</Checkbox>
     <Checkbox checked disabled color="red-500">Hello</Checkbox>
 
-    <div id="popup-container" style="width: 350px; height: 200px" class="relative z-0 m-4 bg-red-100">
+    <div style="width: 350px; height: 200px" class="popup-container relative z-0 m-4 bg-red-100">
       <Dropdown v-for="(place, idx) in places" :key="idx">
         <template #trigger>
           <Button class="absolute" :style="place">Trigger</Button>

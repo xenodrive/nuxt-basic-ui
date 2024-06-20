@@ -1,10 +1,14 @@
 <template>
-  <Popup ref="popup" v-model="isActive" v-window-event:keydown="onKeyDown" popup-class="dropdown overflow-hidden">
+  <Popup
+    ref="popup"
+    v-model="isActive"
+    v-window-event:keydown="onKeyDown"
+    :popup-class="twMerge('dropdown overflow-hidden', props.popupClass)">
     <template #trigger>
       <slot name="trigger">
         <Button :icon="props.icon" :class="props.buttonClass">
           <slot name="label">
-            <slot name="value">
+            <slot name="value" :value="modelValue">
               {{ props.label ?? modelValue }}
             </slot>
           </slot>
@@ -17,8 +21,9 @@
   </Popup>
 </template>
 
-<script lang="ts" setup generic="T extends unknown">
-import { ref, watch, provide } from '#imports';
+<script lang="ts" setup generic="T extends any">
+import { ref, watch, provide, computed } from '#imports';
+import { type ClassNameValue, twMerge } from 'tailwind-merge';
 
 type Props = {
   icon?: string;
@@ -26,7 +31,8 @@ type Props = {
 
   label?: string;
 
-  buttonClass?: string;
+  buttonClass?: ClassNameValue;
+  popupClass?: ClassNameValue;
 
   autoClose?: boolean;
 
@@ -132,6 +138,8 @@ const api = {
   },
 
   close,
+
+  selected: computed(() => modelValue.value),
 };
 
 provide('x-selectable', api);

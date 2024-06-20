@@ -4,7 +4,7 @@
 
     <div class="max-h-full flex-grow overflow-scroll" :class="props.contentClass">
       <template v-if="editing != null">
-        <slot :value="editing" :update="update" />
+        <slot :value="editing" :update="update" :commit="commit" :cancel="cancel" />
       </template>
     </div>
 
@@ -20,7 +20,7 @@
           @click="commit()">
           <slot name="label-commit">{{ props.commitLabel }}</slot>
         </Button>
-        <Button class="cancel" :class="props.cancelClass" @click="modal = false">{{ props.cancelLabel }}</Button>
+        <Button class="cancel" :class="props.cancelClass" @click="cancel()">{{ props.cancelLabel }}</Button>
       </div>
     </div>
   </Modal>
@@ -71,6 +71,10 @@ watch(
 async function commit() {
   if (props.confirm && !(await props.confirm(editing.value as T))) return;
   modelValue.value = editing.value as T;
+  modal.value = false;
+}
+
+function cancel() {
   modal.value = false;
 }
 

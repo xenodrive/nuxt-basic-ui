@@ -4,7 +4,10 @@
       ref="$el"
       class="dropdown-item input-candidate-item"
       :aria-disabled="props.disabled"
-      :class="$attrs.class as ClassNameValue"
+      :class="[
+        $attrs.class as ClassNameValue,
+        { 'dropdown-item-active': props.active || (props.value !== undefined && api?.selected.value === props.value) },
+      ]"
       :style="$attrs.style as any"
       @click="onClick(navigate)">
       <Checkbox v-if="props.checkbox" :model-value="props.checked" readonly />
@@ -21,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, useAttrs } from '#imports';
+import { inject, ref, useAttrs, type ComputedRef } from '#imports';
 import { type ClassNameValue } from 'tailwind-merge';
 
 defineOptions({
@@ -36,6 +39,8 @@ type Props = {
   checkbox?: boolean;
   radio?: boolean;
   checked?: boolean | undefined;
+
+  active?: boolean | undefined;
 };
 const props = defineProps<Props>();
 
@@ -43,6 +48,7 @@ const $el = ref<HTMLElement>();
 
 type Selectable = {
   select(x: unknown): void;
+  selected: ComputedRef<unknown>;
 };
 const api = inject<Selectable>('x-selectable');
 

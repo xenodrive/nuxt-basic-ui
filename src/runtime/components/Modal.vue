@@ -6,7 +6,7 @@
     <div
       v-if="show"
       v-window-event:keydown="onKeyDown"
-      class="fixed inset-0 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-70 p-4"
+      class="popup-container fixed inset-0 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-70 p-4"
       style="z-index: 9999"
       @click.stop="close()">
       <div

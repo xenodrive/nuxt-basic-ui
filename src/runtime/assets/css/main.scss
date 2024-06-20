@@ -25,13 +25,13 @@
     @apply px-3 py-2 rounded;
     @apply flex cursor-pointer select-none items-baseline gap-2;
 
-    &[aria-selected='true'] {
-      background-color: theme('dropdown.selected.background' / theme('dropdown.selected.backgroundOpacity'));
-      color: theme('dropdown.selected.text');
-    }
-    &:hover {
+    &[aria-selected='true'], &:hover {
       background-color: theme('dropdown.hover.background' / theme('dropdown.hover.backgroundOpacity'));
       color: theme('dropdown.hover.text');
+    }
+    &.dropdown-item-active {
+      background-color: theme('dropdown.selected.background' / theme('dropdown.selected.backgroundOpacity'));
+      color: theme('dropdown.selected.text');
     }
   }
 

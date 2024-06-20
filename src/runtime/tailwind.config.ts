@@ -60,8 +60,8 @@ export default {
 
         dropdown: ({ theme }) => ({
           selected: {
-            text: 'inherit',
-            background: theme('colors.slate.200'),
+            text: theme('colors.invert'),
+            background: theme('colors.slate.500'),
             backgroundOpacity: '100%',
           },
           hover: {

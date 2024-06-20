@@ -50,7 +50,7 @@ useResizeObserver([popupContainer, $popup], () => {
 const teleport = ref(false);
 onMounted(() => {
   setTimeout(() => {
-    popupContainer.value = document.getElementById('popup-container') ?? document.body;
+    popupContainer.value = $el.value?.closest('.popup-container') ?? document.body;
     teleport.value = true;
   }, 100);
 });
@@ -67,7 +67,7 @@ type Props = {
   margin?: number;
 
   disabled?: boolean;
-  popupClass?: any;
+  popupClass?: ClassNameValue;
 
   class?: ClassNameValue;
 
