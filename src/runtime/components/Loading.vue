@@ -3,7 +3,7 @@
     v-if="props.modelValue"
     :class="
       twMerge(
-        'inset-0 z-50 h-full w-full bg-white bg-opacity-30',
+        'inset-0 z-30 h-full w-full bg-white bg-opacity-30',
         props.fullscreen ? 'fixed' : 'absolute',
         props.backdrop ? 'backdrop-blur' : '',
         props.class,
