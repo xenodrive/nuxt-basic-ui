@@ -2,7 +2,7 @@
   <Modal v-model="modal" class="dialog flex flex-col" :closeable="props.closeable !== false">
     <template #trigger><slot name="trigger" /></template>
 
-    <div class="max-h-full flex-grow overflow-scroll" :class="props.contentClass">
+    <div class="max-h-full flex-grow overflow-auto" :class="props.contentClass">
       <template v-if="editing != null">
         <slot :value="editing" :update="update" :commit="commit" :cancel="cancel" />
       </template>
