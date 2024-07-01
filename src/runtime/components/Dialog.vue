@@ -1,6 +1,8 @@
 <template>
   <Modal v-model="modal" class="dialog flex flex-col" :closeable="props.closeable !== false">
-    <template #trigger><slot name="trigger" /></template>
+    <template #trigger>
+      <slot name="trigger" />
+    </template>
 
     <div class="max-h-full flex-grow overflow-auto" :class="props.contentClass">
       <template v-if="editing != null">
@@ -26,8 +28,8 @@
   </Modal>
 </template>
 
-<script lang="ts" setup generic="T extends {}">
-import { ref, watch } from '#imports';
+<script lang="ts" setup generic="T">
+import { ref, watch, nextTick } from '#imports';
 import { type ClassNameValue } from 'tailwind-merge';
 import { theme } from '../utils/twcolor';
 
@@ -50,31 +52,33 @@ const props = withDefaults(defineProps<Props>(), {
   cancelLabel: theme('dialog.cancel.label'),
   closeable: true,
 });
-const modal = defineModel<boolean>('active', { default: false });
+const modal = defineModel<boolean | undefined>('active', { default: undefined });
 const modelValue = defineModel<T>({ required: true });
 const editing = ref<T>();
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'commit', 'cancel']);
 
-watch(
-  modal,
-  (open) => {
-    if (open) {
-      editing.value = JSON.parse(JSON.stringify(modelValue.value));
-    } else {
-      emit('close');
-    }
-  },
-  { immediate: true },
-);
+watch(modal, (open) => {
+  if (open) {
+    editing.value = JSON.parse(JSON.stringify(modelValue.value));
+  } else {
+    emit('close');
+  }
+});
 
 async function commit() {
   if (props.confirm && !(await props.confirm(editing.value as T))) return;
   modelValue.value = editing.value as T;
+  emit('commit', editing.value as T);
+
+  await nextTick();
   modal.value = false;
 }
 
-function cancel() {
+async function cancel() {
+  emit('cancel');
+
+  await nextTick();
   modal.value = false;
 }
 

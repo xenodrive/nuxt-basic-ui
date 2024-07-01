@@ -49,6 +49,7 @@ const $el = ref<HTMLElement>();
 type Selectable = {
   select(x: unknown): void;
   selected: ComputedRef<unknown>;
+  close(): void;
 };
 const api = inject<Selectable>('x-selectable');
 
@@ -60,6 +61,7 @@ function onClick(navigate: (to: string) => void) {
   if (props.disabled) return;
 
   if (props.to) {
+    api?.close();
     navigate(props.to);
     emit('click', props.value);
     return;
