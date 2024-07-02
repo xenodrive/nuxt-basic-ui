@@ -1,6 +1,7 @@
 import type { RecursiveKeyValuePair, ResolvableTo, ThemeConfig } from 'tailwindcss/types/config';
 
 interface CustomThemeConfig extends ThemeConfig {
+  field: ResolvableTo<RecursiveKeyValuePair>;
   checkbox: ResolvableTo<RecursiveKeyValuePair>;
   toggle: ResolvableTo<RecursiveKeyValuePair>;
   dropdown: ResolvableTo<RecursiveKeyValuePair>;
@@ -19,6 +20,12 @@ export default {
             invert: colors.white,
           }),
         },
+
+        field: ({ theme }) => ({
+          label: {
+            text: theme('colors.slate.500'),
+          },
+        }),
 
         checkbox: ({ theme }) => ({
           active: {
