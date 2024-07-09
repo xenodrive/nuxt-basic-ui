@@ -13,7 +13,7 @@
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 type Props = {
   label: string;
-  labelClass: ClassNameValue;
+  labelClass?: ClassNameValue;
 };
 const props = defineProps<Props>();
 </script>
