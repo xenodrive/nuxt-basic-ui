@@ -1,7 +1,9 @@
 <template>
   <div class="page">
     <Loading :model-value="props.loading" />
-    <slot />
+    <div class="page-contents">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -14,18 +16,22 @@ const props = defineProps<Props>();
 
 <style lang="scss" scoped>
 .page {
-  @apply relative mx-auto min-h-full w-full min-w-fit max-w-screen-xl p-4;
+  @apply relative mx-auto min-h-full w-full min-w-fit p-4;
 
-  :deep(h1) {
-    @apply flex items-center gap-4 text-lg font-bold;
-  }
+  > .page-contents {
+    @apply mx-auto max-w-screen-xl;
 
-  > :deep(header) {
-    @apply mb-4 flex items-center gap-4;
-  }
+    :deep(h1) {
+      @apply flex items-center gap-4 text-lg font-bold;
+    }
 
-  > :deep(footer) {
-    @apply mt-4 flex items-center gap-4;
+    > :deep(header) {
+      @apply mb-4 flex items-center gap-4;
+    }
+
+    > :deep(footer) {
+      @apply mt-4 flex items-center gap-4;
+    }
   }
 }
 </style>
