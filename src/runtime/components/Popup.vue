@@ -8,7 +8,7 @@
     <div
       ref="$trigger"
       class="pointer-events-none inline [&>*]:pointer-events-auto"
-      :class="{ 'cursor-pointer': !props.disabled }"
+      :class="{ 'cursor-pointer': !props.hover && !props.disabled && !props.inactive }"
       @click="onClick()"
       @mouseenter="onHover(true)"
       @mouseleave="onHover(false)">
