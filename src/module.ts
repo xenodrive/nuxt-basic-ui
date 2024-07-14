@@ -9,12 +9,12 @@ import {
   resolveFiles,
   useLogger,
 } from '@nuxt/kit';
+import type { Nuxt, NuxtOptions } from '@nuxt/schema';
 import fs from 'node:fs';
 import { dirname } from 'node:path';
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {}
-
 const logger = useLogger('nuxt:basic-ui');
 
 export default defineNuxtModule<ModuleOptions>({
@@ -24,7 +24,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {},
-  async setup(_options, nuxt) {
+  async setup(_options, nuxt: Nuxt & { options: NuxtOptions & { tailwindcss?: any } }) {
     const { resolve } = createResolver(import.meta.url);
 
     // CSS

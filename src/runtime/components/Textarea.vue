@@ -308,12 +308,13 @@ function onLineNumberMove(e: MouseEvent, lineIdx: number) {
 
       pre.poortext-editor--highlight {
         position: relative;
+        font: inherit;
+        color: inherit;
+
         &:before {
           /* needed when line number is disabled */
           content: '\200b';
         }
-        font: inherit;
-        color: inherit;
 
         &.placeholder {
           opacity: 0.25;
@@ -349,6 +350,9 @@ function onLineNumberMove(e: MouseEvent, lineIdx: number) {
 
   .scrollbar {
     /* ---------------------------------------------- */
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-width: auto;
+
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -371,9 +375,6 @@ function onLineNumberMove(e: MouseEvent, lineIdx: number) {
       background-color: transparent;
       border-radius: 20px;
     }
-
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-    scrollbar-width: auto;
 
     &:hover {
       scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
