@@ -6,17 +6,17 @@
 
     <div class="max-h-full flex-grow overflow-auto" :class="props.contentClass">
       <template v-if="editing != null">
-        <slot :value="editing" :update="update" :commit="commit" :cancel="cancel" />
+        <slot :value="editing" :commit="commit" :cancel="cancel" />
       </template>
     </div>
 
     <div v-if="editing != null" class="mt-2 flex items-baseline justify-between">
       <div>
-        <slot name="footer" :value="editing" :update="update" />
+        <slot name="footer" :value="editing" />
       </div>
       <div class="flex justify-end gap-2">
         <Button
-          :disabled="props.validator && !props.validator(editing)"
+          :disabled="props.validator && !props.validator(editing as T)"
           class="commit"
           :class="props.commitClass"
           @click="commit()">
@@ -28,8 +28,9 @@
   </Modal>
 </template>
 
-<script lang="ts" setup generic="T">
-import { ref, watch, nextTick } from '#imports';
+<script lang="ts" setup generic="T extends Objectish">
+import { nextTick, ref, watch } from '#imports';
+import { createDraft, finishDraft, type Draft, type Objectish } from 'immer';
 import { type ClassNameValue } from 'tailwind-merge';
 import { theme } from '../utils/twcolor';
 
@@ -54,22 +55,26 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const modal = defineModel<boolean | undefined>('active', { default: undefined });
 const modelValue = defineModel<T>({ required: true });
-const editing = ref<T>();
+const editing = ref<Draft<T>>();
 
 const emit = defineEmits(['close', 'commit', 'cancel']);
 
 watch(modal, (open) => {
   if (open) {
-    editing.value = JSON.parse(JSON.stringify(modelValue.value));
+    editing.value = createDraft(modelValue.value);
   } else {
     emit('close');
   }
 });
 
 async function commit() {
+  if (!editing.value) return;
   if (props.confirm && !(await props.confirm(editing.value as T))) return;
-  modelValue.value = editing.value as T;
-  emit('commit', editing.value as T);
+
+  const obj = finishDraft(editing.value) as T;
+  modelValue.value = obj;
+  emit('commit', obj as T);
+  editing.value = undefined;
 
   await nextTick();
   modal.value = false;
@@ -77,12 +82,9 @@ async function commit() {
 
 async function cancel() {
   emit('cancel');
+  editing.value = undefined;
 
   await nextTick();
   modal.value = false;
-}
-
-function update(value: T) {
-  editing.value = JSON.parse(JSON.stringify(value));
 }
 </script>
