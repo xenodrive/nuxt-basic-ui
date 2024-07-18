@@ -8,8 +8,8 @@
       <slot name="trigger">
         <Button :icon="props.icon" :class="props.buttonClass">
           <slot name="label">
-            <slot name="value" :value="modelValue">
-              {{ props.label ?? modelValue }}
+            <slot name="value" :value="props.modelValue">
+              {{ props.label ?? props.modelValue }}
             </slot>
           </slot>
           <Icon :name="props.menuIcon || 'menu-down'" />
@@ -28,6 +28,7 @@ import { type ClassNameValue, twMerge } from 'tailwind-merge';
 type Props = {
   icon?: string;
   menuIcon?: string;
+  modelValue?: T;
 
   label?: string;
 
@@ -41,14 +42,12 @@ type Props = {
 
 const popup = ref();
 const props = defineProps<Props>();
-const emit = defineEmits(['select']);
+const emit = defineEmits(['select', 'update:modelValue']);
 
 const isActive = defineModel<boolean>('active', { default: false });
 watch(isActive, (active) => {
   if (!active) makeElementActive(undefined);
 });
-
-const modelValue = defineModel<T>();
 
 function onArrowKey(evt: Event, key: 'up' | 'down') {
   if (!isActive.value) return false;
@@ -133,13 +132,13 @@ function close() {
 const api = {
   select(item: T) {
     if (props.autoClose) close();
-    if (item !== undefined) modelValue.value = item;
+    if (item !== undefined) emit('update:modelValue', item);
     emit('select', item);
   },
 
   close,
 
-  selected: computed(() => modelValue.value),
+  selected: computed(() => props.modelValue),
 };
 
 provide('x-selectable', api);
