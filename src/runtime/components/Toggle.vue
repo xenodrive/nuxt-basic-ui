@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from '#imports';
-import { twMerge, type ClassNameValue } from 'tailwind-merge';
-import { twcolor, type TwColor, theme } from '../utils/twcolor';
+import { computed, ref } from '#imports';
 import chroma from 'chroma-js';
+import { twMerge, type ClassNameValue } from 'tailwind-merge';
+import { theme, twcolor, type TwColor } from '../utils/twcolor';
 
 const checked = defineModel<boolean>({ default: false });
 const props = withDefaults(

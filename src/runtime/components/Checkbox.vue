@@ -15,8 +15,8 @@
 <script lang="ts" setup>
 import { computed, watch } from '#imports';
 import chroma from 'chroma-js';
-import { twcolor, type TwColor } from '../utils/twcolor';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
+import { twcolor, type TwColor } from '../utils/twcolor';
 
 const modelValue = defineModel<any>();
 const selected = defineModel<any[]>('selected');

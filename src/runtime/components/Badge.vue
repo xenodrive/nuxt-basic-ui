@@ -20,8 +20,8 @@
 <script lang="ts" setup>
 import { computed, useSlots } from '#imports';
 import chroma from 'chroma-js';
-import { theme, twcolor, type TwColor } from '../utils/twcolor';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
+import { theme, twcolor, type TwColor } from '../utils/twcolor';
 
 const $slots = useSlots();
 

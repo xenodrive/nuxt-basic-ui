@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup generic="T extends any">
-import { ref, watch, provide, computed } from '#imports';
+import { computed, provide, ref, watch } from '#imports';
 import { type ClassNameValue, twMerge } from 'tailwind-merge';
 
 type Props = {

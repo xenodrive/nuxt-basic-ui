@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, nextTick, computed, useSlots } from '#imports';
+import { computed, nextTick, ref, useSlots, watch } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 type Props = {

@@ -11,8 +11,8 @@
 <script lang="ts" setup>
 import { computed } from '#imports';
 import chroma from 'chroma-js';
-import { theme, twcolor } from '../utils/twcolor';
 import { twMerge } from 'tailwind-merge';
+import { theme, twcolor } from '../utils/twcolor';
 
 type Props = {
   color?: string;

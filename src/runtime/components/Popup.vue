@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch, computed } from '#imports';
+import { computed, onMounted, ref, watch } from '#imports';
 import { useResizeObserver } from '@vueuse/core';
 import { type ClassNameValue, twMerge } from 'tailwind-merge';
 
