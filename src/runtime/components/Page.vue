@@ -1,9 +1,15 @@
 <template>
   <div class="page">
     <Loading :model-value="props.loading" />
-    <div class="page-contents">
-      <slot />
+    <header><slot name="header" /></header>
+    <div class="page-container">
+      <div class="page-scroller">
+        <div class="page-contents">
+          <slot />
+        </div>
+      </div>
     </div>
+    <footer><slot name="footer" /></footer>
   </div>
 </template>
 
@@ -14,24 +20,36 @@ type Props = {
 const props = defineProps<Props>();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@import '../assets/css/theme.css' theme(reference);
+
 .page {
-  @apply relative mx-auto min-h-full w-full min-w-fit p-4;
+  @apply relative flex h-full w-full flex-col;
 
-  > .page-contents {
-    @apply mx-auto max-w-screen-xl;
+  > .page-container {
+    @apply h-full overflow-scroll;
 
-    :deep(h1) {
-      @apply flex items-center gap-4 text-lg font-bold;
+    > .page-scroller {
+      @apply mx-auto h-fit w-fit p-4;
+
+      > .page-contents {
+        @apply h-fit w-fit min-w-(--breakpoint-xl);
+
+        &:deep(h1) {
+          display: flex;
+
+          @apply flex items-center gap-4 text-lg font-bold;
+        }
+      }
     }
+  }
 
-    > :deep(header) {
-      @apply mb-4 flex items-center gap-4;
-    }
+  > header {
+    @apply w-full flex-none;
+  }
 
-    > :deep(footer) {
-      @apply mt-4 flex items-center gap-4;
-    }
+  > footer {
+    @apply w-full flex-none;
   }
 }
 </style>

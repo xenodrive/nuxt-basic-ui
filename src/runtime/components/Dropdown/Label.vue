@@ -1,12 +1,11 @@
 <template>
-  <div class="label">
+  <div class="label min-w-[12rem] p-2 text-xs text-gray-500 select-none">
     <slot />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .label {
-  @apply min-w-[12rem] select-none p-2 text-xs text-gray-500;
   font-variant-caps: small-caps;
 }
 </style>

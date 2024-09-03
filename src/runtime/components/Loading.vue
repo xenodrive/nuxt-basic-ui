@@ -3,14 +3,14 @@
     v-if="props.modelValue"
     :class="
       twMerge(
-        'inset-0 z-30 h-full w-full bg-white bg-opacity-30',
+        'inset-0 z-30 h-full w-full cursor-not-allowed bg-white/60',
         props.fullscreen ? 'fixed' : 'absolute',
         props.backdrop ? 'backdrop-blur' : '',
         props.class,
       )
     "
     v-bind="$attrs">
-    <div role="status" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div role="status" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <svg
         aria-hidden="true"
         :class="size"
@@ -44,7 +44,7 @@ type Props = {
   fullscreen?: boolean;
   backdrop?: boolean;
 
-  size?: 'small' | 'large';
+  size?: 'small' | 'large' | 'text';
 
   class?: ClassNameValue;
 };
@@ -55,6 +55,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 const size = computed<string>(() => {
   switch (props.size) {
+    case 'text':
+      return 'w-[1em] h-[1em]';
+
     case 'small':
       return 'w-6 h-6';
   }

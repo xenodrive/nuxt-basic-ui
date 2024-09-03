@@ -2,29 +2,27 @@ import {
   addComponentsDir,
   addImportsDir,
   addPlugin,
-  addTemplate,
+  addVitePlugin,
   createResolver,
   defineNuxtModule,
   installModule,
   resolveFiles,
   useLogger,
 } from '@nuxt/kit';
-import type { Nuxt, NuxtOptions } from '@nuxt/schema';
-import fs from 'node:fs';
-import { dirname } from 'node:path';
+import type { Nuxt } from '@nuxt/schema';
+import tailwindcssPlugin from '@tailwindcss/vite';
 
-// Module options TypeScript interface definition
-export interface ModuleOptions {}
 const logger = useLogger('nuxt:basic-ui');
 
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule({
   meta: {
     name: '@xenodrive/nuxt-basic-ui',
     configKey: 'ui',
   },
   // Default configuration options of the Nuxt module
   defaults: {},
-  async setup(_options, nuxt: Nuxt & { options: NuxtOptions & { tailwindcss?: any } }) {
+
+  async setup(_options, nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
 
     // CSS
@@ -33,11 +31,15 @@ export default defineNuxtModule<ModuleOptions>({
     // CommonJS packages
     if (!nuxt.options.vite.optimizeDeps) nuxt.options.vite.optimizeDeps = {};
     if (!nuxt.options.vite.optimizeDeps.include) nuxt.options.vite.optimizeDeps.include = [];
-    nuxt.options.vite.optimizeDeps.include = [
-      ...nuxt.options.vite.optimizeDeps.include,
-      'chroma-js',
-      'tailwindcss/colors',
-    ];
+    nuxt.options.vite.optimizeDeps.include = [...nuxt.options.vite.optimizeDeps.include, 'tailwindcss/colors'];
+
+    // Inject css / tailwind
+    if (nuxt.options.builder === '@nuxt/vite-builder') {
+      addVitePlugin(tailwindcssPlugin());
+    } else {
+      nuxt.options.postcss.plugins['@tailwindcss/postcss'] = {};
+    }
+    nuxt.options.css.unshift(resolve('./runtime/assets/css/main.css'));
 
     // Add runtime as a layer
     nuxt.options._layers.push({
@@ -49,36 +51,6 @@ export default defineNuxtModule<ModuleOptions>({
       cwd: resolve('./runtime'),
     });
 
-    // XXX: Hijack user specified cssPath, or tailwindcss/tailwind.css
-    const origCssPath = nuxt.options.tailwindcss?.cssPath ?? 'tailwindcss/tailwind.css';
-    const cssFiles = await resolveFiles(resolve('./runtime/assets/css/'), ['*.css', '*.scss']);
-
-    const getContents = () => [...cssFiles, origCssPath].map((f) => `@import '${f}';`).join('\n');
-    const tmpl = addTemplate({
-      filename: 'tailwind.css',
-      write: true,
-      getContents,
-    });
-
-    // XXX: write the CSS immediately
-    fs.mkdirSync(dirname(tmpl.dst), { recursive: true });
-    fs.writeFileSync(tmpl.dst, getContents());
-    const cssPath = tmpl.dst;
-
-    // XXX: XXX: Workaround for a race condition.
-    // https://github.com/nuxt-modules/tailwindcss/issues/802
-    if (nuxt.options.vite.warmupEntry !== false) {
-      nuxt.hook('vite:serverCreated', async (server, env) => {
-        if (!env.isServer) await server.transformRequest(cssPath, { ssr: env.isServer });
-      });
-    }
-
-    // Additional modules
-    installModule('@nuxtjs/tailwindcss', {
-      ...(nuxt.options.tailwindcss || {}),
-      cssPath,
-      exposeConfig: true,
-    });
     installModule('@vueuse/nuxt');
 
     // Load our composables

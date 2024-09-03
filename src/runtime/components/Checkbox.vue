@@ -1,22 +1,22 @@
 <template>
   <label
-    class="checkbox"
+    class="checkbox disabled-style"
     :class="[
       { 'cursor-pointer': !props.disabled && !props.readonly },
       twMerge('inline-flex items-center', props.class),
     ]"
     :aria-disabled="props.disabled"
+    :style="style"
     @click="onClick">
-    <Icon class="icon" :icon="icon" :class="{ override: !!color }" />
-    <div class="ml-0.5 select-none first:ml-0" :aria-disabled="props.disabled"><slot /></div>
+    <Icon class="icon" :icon="icon" />
+    <div class="ml-0.5 select-none first:ml-0"><slot /></div>
   </label>
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from '#imports';
-import chroma from 'chroma-js';
+import type { TwColor } from '#imports';
+import { computed, twcolor, watch } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
-import { twcolor, type TwColor } from '../utils/twcolor';
 
 const modelValue = defineModel<any>();
 const selected = defineModel<any[]>('selected');
@@ -24,7 +24,9 @@ type Props = {
   readonly?: boolean;
   disabled?: boolean;
   triState?: any;
-  color?: TwColor;
+
+  color?: string | TwColor;
+  iconColor?: string | TwColor;
 
   value?: any;
   class?: ClassNameValue;
@@ -88,24 +90,18 @@ watch(
   { immediate: true },
 );
 
-const color = computed(() => {
-  return props.color && chroma(twcolor(props.color)).rgb().join(' ');
-});
+const style = computed(() => ({
+  '--checkbox-text-color': twcolor(props.color).toString(),
+  '--checkbox-icon-color': twcolor(props.iconColor ?? props.color).toString(),
+}));
 </script>
 
-<style style="scss" scoped>
-.checkbox:not([aria-disabled='true']) {
-  & > .icon {
-    &.override {
-      color: rgb(v-bind(color));
-    }
-  }
+<style scoped>
+.checkbox {
+  color: var(--checkbox-text-color);
 
-  &:hover > .icon {
-    &.override {
-      background-color: rgba(v-bind(color) / theme('checkbox.hover.backgroundOpacity'));
-      color: rgb(v-bind(color));
-    }
+  .icon {
+    color: var(--checkbox-icon-color);
   }
 }
 </style>

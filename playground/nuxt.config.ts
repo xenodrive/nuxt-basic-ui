@@ -1,7 +1,5 @@
 export default defineNuxtConfig({
-  tailwindcss: {
-    cssPath: '~/main.scss',
-  },
   modules: ['../src/module'],
   devtools: { enabled: true },
+  compatibilityDate: '2024-10-23',
 });

@@ -1,6 +1,7 @@
 <template>
   <label
-    :class="[{ 'cursor-pointer': !props.disabled && !props.readonly }, twMerge('relative inline-flex', props.class)]"
+    class="toggle disabled-style"
+    :class="twMerge('relative inline-flex', props.class)"
     style="align-items: last baseline"
     :aria-disabled="props.disabled">
     <input
@@ -8,28 +9,23 @@
       v-model="checked"
       type="checkbox"
       value="1"
-      class="peer sr-only"
+      class="checkbox sr-only"
       :disabled="props.disabled || props.readonly" />
 
     <div :class="twMerge('inline-flex items-center gap-1', props.innerClass)">
       <div
-        class="toggle-switch order-5 rounded-full leading-[0] transition-all after:rounded-full after:transition-all aria-disabled:opacity-50 aria-disabled:saturate-0"
-        :style="style"
-        :aria-disabled="props.disabled" />
-      <span
-        :class="twMerge('order-6 select-none aria-disabled:opacity-30', props.labelClass)"
-        :aria-disabled="props.disabled"
-        ><slot
-      /></span>
+        class="toggle-switch order-5 rounded-full leading-[0] transition-all after:rounded-full after:transition-all"
+        :style="style" />
+      <span :class="twMerge('order-6 select-none', props.labelClass)"><slot /></span>
     </div>
   </label>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from '#imports';
-import chroma from 'chroma-js';
+import { computed, ref, twcolor } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
-import { theme, twcolor, type TwColor } from '../utils/twcolor';
+
+type TwColor = string;
 
 const checked = defineModel<boolean>({ default: false });
 const props = withDefaults(
@@ -58,12 +54,7 @@ const knobColor = computed(() => {
 
   return String(props.knobColor)
     .split(/[\s,]+/)
-    .map((c) => twcolor(c));
-});
-
-const ringColor = computed(() => {
-  if (!toggleColor.value || !toggleColor.value[0]) return undefined;
-  return `rgb(${chroma(toggleColor.value[0]).rgb().join(' ')} / ${theme('toggle.ring.opacity')})`;
+    .map((c) => twcolor(c).toString());
 });
 
 const toggleColor = computed(() => {
@@ -71,7 +62,7 @@ const toggleColor = computed(() => {
 
   return String(props.color)
     .split(/[\s,]+/)
-    .map((c) => twcolor(c));
+    .map((c) => twcolor(c).toString());
 });
 
 const style = computed(() => ({
@@ -80,25 +71,15 @@ const style = computed(() => ({
   '--toggle-color-on': toggleColor.value[0],
   '--toggle-color-off': toggleColor.value[1],
   '--toggle-ring-width': props.ringSize,
-  '--toggle-ring-color': ringColor.value,
   '--toggle-knob-diameter': props.knobSize,
   '--toggle-knob-color-on': knobColor.value[0],
   '--toggle-knob-color-off': knobColor.value[1],
 }));
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .toggle-switch {
-  --toggle-width: theme('toggle.width');
-  --toggle-height: theme('toggle.height');
-  --toggle-color-on: theme('toggle.background.on');
-  --toggle-color-off: theme('toggle.background.off');
-  --toggle-ring-width: theme('toggle.ring.size');
-  --toggle-ring-color: theme('toggle.ring.color' / theme('toggle.ring.opacity'));
-  --toggle-knob-diameter: theme('toggle.knob.size');
-  --toggle-knob-color-on: theme('toggle.knob.on');
-  --toggle-knob-color-off: theme('toggle.knob.off');
-
+  --toggle-ring-color: rgb(from var(--toggle-color-on) r g b / var(--toggle-ring-opacity));
   --toggle-knob-padding: calc(min(var(--toggle-width), var(--toggle-height)) - var(--toggle-knob-diameter));
 
   position: relative;
@@ -108,6 +89,8 @@ const style = computed(() => ({
   outline-offset: 0;
   margin: max(0px, calc((var(--toggle-knob-diameter) - var(--toggle-height)) / 2));
   background-color: var(--toggle-color-off);
+
+  cursor: pointer;
 
   &:after {
     position: absolute;
@@ -121,17 +104,21 @@ const style = computed(() => ({
     background-color: var(--toggle-knob-color-off);
   }
 }
-.peer:checked ~ div > .toggle-switch {
+
+.checkbox:checked ~ div > .toggle-switch {
   background-color: var(--toggle-color-on);
   &:after {
     transform: translate(calc(var(--toggle-width) - var(--toggle-knob-diameter) - var(--toggle-knob-padding)), 0);
     background-color: var(--toggle-knob-color-on);
   }
 }
-.peer:hover ~ div > .toggle-switch,
-.toggle-switch:hover {
-  outline-width: var(--toggle-ring-width);
-  outline-style: solid;
-  outline-color: var(--toggle-ring-color);
+
+.disabled-style:not([aria-disabled='true']) {
+  .checkbox:hover ~ div > .toggle-switch,
+  .toggle-switch:hover {
+    outline-width: var(--toggle-ring-width);
+    outline-style: solid;
+    outline-color: var(--toggle-ring-color);
+  }
 }
 </style>

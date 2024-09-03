@@ -1,7 +1,7 @@
 <template>
   <div :class="twMerge('relative inline-flex flex-col', props.class)" @click="focus">
     <div :class="twMerge('inline-flex items-baseline', props.inputClass)">
-      <div v-if="prependExists" class="absolute bottom-0 left-0 top-0 flex w-8 items-center justify-center">
+      <div v-if="prependExists" class="absolute top-0 bottom-0 left-0 flex w-8 items-center justify-center">
         <slot name="prepend">
           <Icon
             v-if="props.iconPrepend"
@@ -32,7 +32,7 @@
         @input="onInput"
         @keydown="onKeydown" />
 
-      <div v-if="appendExists" class="absolute bottom-0 right-0 top-0 flex w-8 items-center justify-center">
+      <div v-if="appendExists" class="absolute top-0 right-0 bottom-0 flex w-8 items-center justify-center">
         <Icon v-if="props.clearable && value" name="close" class="cursor-pointer text-gray-400" @click="value = ''" />
         <slot v-else name="append">
           <Icon

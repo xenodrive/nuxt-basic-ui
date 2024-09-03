@@ -8,7 +8,7 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "nuxt": "latest",
-    "typescript": "^5.5.2"
+    "nuxt": "^3.14.1592",
+    "typescript": "^5.7.2"
   }
 }

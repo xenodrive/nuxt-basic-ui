@@ -1,25 +1,34 @@
 <template>
   <button
-    class="button"
+    class="button hover-style disabled-style cursor-pointer"
+    :disabled="props.disabled"
     :class="twMerge('relative overflow-hidden', props.class)"
+    :style="style"
+    :aria-busy="props.loading"
     @mouseenter="hover = true"
     @mouseleave="hover = false">
-    <div class="absolute inset-0 bg-black bg-opacity-0 transition-colors hover:bg-opacity-5 active:bg-opacity-10" />
-    <Loading :model-value="props.loading" size="small" :backdrop="false" class="bg-opacity-80" />
-    <Icon v-if="icon" :name="`${icon}`" :size="iconSizeProp" /> <slot />
+    <Loading :model-value="props.loading" size="text" :backdrop="false" />
+    <Icon v-if="icon" :name="`${icon}`" :size="iconSizeProp" />
+    <slot />
   </button>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
+import { findBgColor, twcolor } from '../utils/twcolor';
 
 // TODO:
 type Props = {
   icon?: string;
   iconSize?: number | string;
   hoverIcon?: string;
+
   loading?: boolean;
+  disabled?: boolean;
+
+  color?: string;
+  colorText?: string;
 
   class?: ClassNameValue;
 };
@@ -35,4 +44,20 @@ const icon = computed(() => {
   if (hover.value && props.hoverIcon) return props.hoverIcon;
   return props.icon;
 });
+
+const style = computed(() => {
+  const bgcolor = findBgColor(props.class, props.color);
+  const fgcolor = twcolor(props.colorText, twcolor(bgcolor, '--button-background-color').textColor());
+  return {
+    '--button-background-color': bgcolor.toString(),
+    '--button-text-color': fgcolor.toString(),
+  };
+});
 </script>
+
+<style scoped>
+.button {
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+}
+</style>

@@ -31,8 +31,7 @@
 <script lang="ts" setup generic="T extends Objectish">
 import { nextTick, ref, watch } from '#imports';
 import { createDraft, finishDraft, type Draft, type Objectish } from 'immer';
-import { type ClassNameValue } from 'tailwind-merge';
-import { theme } from '../utils/twcolor';
+import type { ClassNameValue } from 'tailwind-merge';
 
 type Props = {
   validator?: (v: T) => boolean;
@@ -49,8 +48,8 @@ type Props = {
   closeable?: boolean;
 };
 const props = withDefaults(defineProps<Props>(), {
-  commitLabel: theme('dialog.commit.label'),
-  cancelLabel: theme('dialog.cancel.label'),
+  commitLabel: 'OK',
+  cancelLabel: 'Cancel',
   closeable: true,
 });
 const modal = defineModel<boolean | undefined>('active', { default: undefined });

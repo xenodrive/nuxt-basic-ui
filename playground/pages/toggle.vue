@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-col">
+    <div class="flex flex-col items-start">
       <Toggle model-value>Hello</Toggle>
       <Toggle color="red-500" model-value>Hello</Toggle>
       <Toggle color="red-500" model-value readonly>Hello readonly</Toggle>

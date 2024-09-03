@@ -2,7 +2,7 @@
   <div class="box relative border">
     <label
       v-if="props.label"
-      class="absolute -top-2.5 left-1 z-0 flex h-5 items-center whitespace-nowrap px-0.5 text-xs"
+      class="absolute -top-2.5 left-1 z-0 flex h-5 items-center px-0.5 text-xs whitespace-nowrap select-none"
       :class="{ 'cursor-pointer': props.collapsible }"
       @click="collapsed = !collapsed">
       <template v-if="props.collapsible">
@@ -20,15 +20,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from '#imports';
-import { twcolor, type TwColor } from '../utils/twcolor';
-
 type Props = {
   label?: string;
   collapsible?: boolean;
   collapse?: boolean;
-
-  strikeColor?: TwColor;
 };
 const props = defineProps<Props>();
 
@@ -38,21 +33,16 @@ if (props.collapse) collapsed.value = props.collapse;
 function open() {
   collapsed.value = false;
 }
-
-const strikeColor = computed(() => {
-  return props.strikeColor ? twcolor(props.strikeColor) : 'white';
-});
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 label {
-  @apply select-none;
   font-variant: small-caps;
 
   &:before {
     position: absolute;
     z-index: -1;
-    background: v-bind(strikeColor);
+    background: var(--page-background-color);
     display: block;
     content: '';
     left: -2px;

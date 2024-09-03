@@ -1,0 +1,41 @@
+@import "tailwindcss/theme" theme(refenrece);
+@theme {
+  --color-primary: var(--color-indigo-500);
+
+  --badge-title-background-color: var(--color-slate-800);
+  --badge-value-background-color: var(--color-slate-200);
+  --badge-title-text-shadow-opacity: 25%;
+  --badge-value-text-shadow-opacity: 25%;
+
+  --button-background-color: var(--color-transparent);
+
+  --checkbox-text-color: var(--color-inherit);
+  --checkbox-icon-color: var(--color-primary);
+
+  --tag-background-color: var(--color-slate-200);
+
+  --toggle-width: 2.5rem;
+  --toggle-height: 1.25rem;
+  --toggle-color-on: var(--color-primary);
+  --toggle-color-off: var(--color-gray-200);
+  --toggle-ring-width: 2px;
+  --toggle-ring-opacity: 30%;
+  --toggle-knob-diameter: 1rem;
+  --toggle-knob-color-on: var(--color-white);
+  --toggle-knob-color-off: var(--color-white);
+
+  --field-label-text-color: var(--color-black);
+
+  --dropdown-item-active-background-color: var(--color-primary);
+  --dropdown-item-active-icon-color: var(--color-inherit);
+  --dropdown-item-icon-color: var(--color-primary);
+
+  --dropdown-divider-color: var(--color-slate-300);
+
+  --notification-message-color: var(--color-slate-200);
+  --notification-info-color: var(--color-blue-500);
+  --notification-warning-color: var(--color-yellow-500);
+  --notification-error-color: var(--color-red-500);
+
+  --page-background-color: var(--color-white);
+}

@@ -1,16 +1,16 @@
 <template>
   <span
-    class="badge"
-    :class="twMerge('inline-flex h-fit w-fit flex-none select-none overflow-hidden whitespace-nowrap', props.class)"
+    class="badge rounded-sm text-xs"
+    :class="twMerge('inline-flex h-fit w-fit flex-none overflow-hidden whitespace-nowrap select-none', props.class)"
     :style="style">
     <span
       v-if="$slots.title || props.title || props.icon"
-      class="title inline-flex items-center gap-0.5"
+      class="title inline-flex items-center gap-0.5 px-1 py-0.5"
       :class="props.classTitle">
       <Icon v-if="props.icon" :name="props.icon" />
       <slot name="title">{{ props.title }}</slot>
     </span>
-    <span class="value inline-flex items-center gap-0.5" :class="props.classValue">
+    <span class="value inline-flex items-center gap-0.5 px-1 py-0.5" :class="props.classValue">
       <Icon v-if="props.iconValue" :name="props.iconValue" />
       <slot>{{ props.value }}</slot>
     </span>
@@ -18,21 +18,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from '#imports';
-import chroma from 'chroma-js';
+import type { TwColor } from '#imports';
+import { computed, twcolor, useSlots } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
-import { theme, twcolor, type TwColor } from '../utils/twcolor';
 
 const $slots = useSlots();
 
 type Props = {
-  color?: TwColor;
-  colorText?: TwColor;
+  color?: TwColor | string;
+  colorText?: TwColor | string;
 
-  colorTitle?: TwColor;
-  colorTitleText?: TwColor;
-
-  outline?: TwColor;
+  colorTitle?: TwColor | string;
+  colorTitleText?: TwColor | string;
 
   title?: string;
   value?: string;
@@ -47,33 +44,40 @@ type Props = {
 
 const props = defineProps<Props>();
 
-function getColorInfo(color: string | undefined, textColor: string | undefined) {
-  if (!color) return {};
-
-  const c = chroma(twcolor(color));
-  const isDark = c.luminance() < 0.5;
-  const text = textColor ? twcolor(textColor) : isDark ? theme('badge.dark.text') : theme('badge.light.text');
-  const textShadow = chroma(text).alpha(0.25);
-
-  return {
-    background: c.hex(),
-    text: text,
-    textShadow: textShadow.hex(),
-  };
-}
-
 const style = computed(() => {
-  const title = getColorInfo(props.colorTitle, props.colorTitleText);
-  const value = getColorInfo(props.color, props.colorText);
+  const bgTitle = twcolor(props.colorTitle);
+  const fgTitle = twcolor(props.colorTitleText, twcolor(bgTitle, '--badge-title-background-color').textColor());
+  const bgValue = twcolor(props.color);
+  const fgValue = twcolor(props.colorText, twcolor(bgValue, '--badge-value-background-color').textColor());
 
   return {
-    outline: props.outline && `1px solid ${twcolor(props.outline)}`,
-    '--title-text-color': title.text,
-    '--title-text-shadow-color': title.textShadow,
-    '--title-background-color': title.background,
-    '--value-text-color': value.text,
-    '--value-text-shadow-color': value.textShadow,
-    '--value-background-color': value.background,
+    '--badge-title-background-color': bgTitle.toString(),
+    '--badge-title-text-color': fgTitle.toString(),
+    '--badge-value-background-color': bgValue.toString(),
+    '--badge-value-text-color': fgValue.toString(),
   };
 });
 </script>
+
+<style scoped>
+.badge {
+  /* prettier-ignore */
+  --badge-title-text-shadow-color: rgb(from var(--badge-title-text-color) r g b / var(--badge-title-text-shadow-opacity));
+  /* prettier-ignore */
+  --badge-title-text-shadow-color: rgb(from var(--badge-value-text-color) r g b / var(--badge-value-text-shadow-opacity));
+
+  .title {
+    color: var(--badge-title-text-color);
+    background-color: var(--badge-title-background-color);
+
+    text-shadow: 0px 1px var(--badge-title-text-shadow-color);
+  }
+
+  .value {
+    color: var(--badge-value-text-color);
+    background-color: var(--badge-value-background-color);
+
+    text-shadow: 0px 1px var(--badge-value-text-shadow-color);
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <span
-    class="tag"
-    :class="twMerge('inline-flex select-none items-baseline gap-1 overflow-hidden whitespace-nowrap', props.class)"
+    class="tag rounded-full px-1.5 py-0.5 text-xs"
+    :class="twMerge('inline-flex items-baseline gap-1 overflow-hidden whitespace-nowrap select-none', props.class)"
     :style="style">
     <Icon v-if="props.icon" :name="props.icon" />
     <slot>{{ props.name }}</slot>
@@ -9,10 +9,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from '#imports';
-import chroma from 'chroma-js';
+import { computed, twcolor } from '#imports';
 import { twMerge } from 'tailwind-merge';
-import { theme, twcolor } from '../utils/twcolor';
+import { findBgColor } from '../utils/twcolor';
 
 type Props = {
   color?: string;
@@ -21,36 +20,24 @@ type Props = {
   icon?: string;
   name?: string;
 
-  sublabel?: string;
-
-  outline?: string;
-
   class?: string;
 };
 
 const props = defineProps<Props>();
 
-function getColorInfo(color: string | undefined, textColor: string | undefined) {
-  if (!color) return {};
-
-  const c = chroma(twcolor(color));
-  const isDark = c.luminance() < 0.5;
-
-  const text = chroma(textColor ? twcolor(textColor) : isDark ? theme('tag.dark.text') : theme('tag.light.text'));
-
-  return {
-    background: c.hex(),
-    text: text.hex(),
-  };
-}
-
 const style = computed(() => {
-  const main = getColorInfo(props.color, props.colorText);
-
+  const bgcolor = findBgColor(props.class, props.color);
+  const fgcolor = twcolor(props.colorText, twcolor(bgcolor, '--tag-background-color').textColor());
   return {
-    outline: props.outline && `1px solid ${twcolor(props.outline)}`,
-    '--text-color': main.text,
-    '--background-color': main.background,
+    '--tag-background-color': bgcolor.toString(),
+    '--tag-text-color': fgcolor.toString(),
   };
 });
 </script>
+
+<style scoped>
+.tag {
+  background-color: var(--tag-background-color);
+  color: var(--tag-text-color);
+}
+</style>

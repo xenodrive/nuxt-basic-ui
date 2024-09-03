@@ -185,7 +185,7 @@ function onLineNumberMove(e: MouseEvent, lineIdx: number) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .poortext-editor {
   cursor: text;
   box-sizing: border-box;

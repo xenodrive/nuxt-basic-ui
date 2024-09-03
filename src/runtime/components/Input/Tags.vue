@@ -22,13 +22,13 @@
                 :color="tag.color"
                 :icon="tag.icon"
                 @click="emit('click-tag', tag)">
-                <span class="select-none overflow-hidden text-ellipsis whitespace-nowrap px-0.5">{{
+                <span class="overflow-hidden px-0.5 text-ellipsis whitespace-nowrap select-none">{{
                   tag.name ?? tag
                 }}</span>
                 <Icon
                   v-if="tag?.clearable !== false"
                   name="close"
-                  class="-ml-1 -mr-0.5 inline-block cursor-pointer rounded-full p-0.5 hover:bg-black/10"
+                  class="-mr-0.5 -ml-1 inline-block cursor-pointer rounded-full p-0.5 hover:bg-black/10"
                   @click.stop="remove(tidx)" />
               </Tag>
             </template>

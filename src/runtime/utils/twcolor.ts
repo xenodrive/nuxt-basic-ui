@@ -1,39 +1,76 @@
-import themeObj from '#tailwind-config/theme';
+import type { ClassNameValue } from 'tailwind-merge';
 
-type MyRecord<T = any, K extends keyof T = any> = { readonly [P in keyof T]: unknown | MyRecord<T[K]> };
-type ExpandTailwindConfig<T extends MyRecord<T>, J extends string = '-'> =
-  T extends MyRecord<T, infer R>
-    ? R extends string
-      ? T[R] extends MyRecord
-        ? `${R}${J}${ExpandTailwindConfig<T[R], J>}`
-        : R
-      : never
-    : never;
-
-export type TwColor = ExpandTailwindConfig<typeof themeObj.colors>;
-
-type TwKey = keyof typeof themeObj.colors;
-export function twcolor(name: TwColor | string): string;
-export function twcolor(name: undefined): undefined;
-export function twcolor(name: TwColor | string | undefined) {
-  if (name === 'transparent') return '#00000000'; // for chroma-js
-  if (name) {
-    if (name in themeObj.colors && typeof themeObj.colors[name as TwKey] === 'string') {
-      return themeObj.colors[name as TwKey] as string;
-    }
-    const m = name.match(/^([a-z]+)-(50|950|[123456789]00)$/);
-    if (m && m[1] in themeObj.colors) {
-      const obj = themeObj.colors[m[1] as TwKey];
-      if (typeof obj === 'object' && m[2] in obj) {
-        return obj[m[2] as keyof typeof obj];
-      }
-    }
-  }
-  return name;
+interface TwColorLike {
+  color: string | undefined;
 }
 
-export type TwConfig = ExpandTailwindConfig<typeof themeObj, '.'>;
-export function theme(name: TwConfig): string {
-  const parts = name.split('.');
-  return parts.reduce((acc, val) => acc && (acc as any)?.[val], themeObj) as any;
+export class TwColor {
+  color: string | undefined;
+
+  constructor(s: string | TwColorLike | undefined | null) {
+    if (!s) {
+      this.color = undefined;
+      return;
+    }
+    if (s instanceof TwColor || typeof s === 'object') {
+      this.color = s.color;
+      return;
+    }
+    if (s?.startsWith('var(') || s?.startsWith('#')) {
+      this.color = s;
+      return;
+    }
+    if (s?.startsWith('--')) {
+      this.color = `var(${s})`;
+      return;
+    }
+    this.color = `var(--color-${s})`;
+  }
+
+  toString() {
+    return this.color;
+  }
+
+  isUndefined() {
+    return this.color === undefined;
+  }
+
+  darken(n: number) {
+    const r = new TwColor(this);
+    if (r.isUndefined()) return r;
+    if (n > 0) {
+      r.color = `color-mix(in srgb, ${this.color} ${n}, black)`;
+    }
+    return r;
+  }
+
+  lighten(n: number) {
+    const r = new TwColor(this);
+    if (r.isUndefined()) return r;
+    if (n > 0) {
+      r.color = `color-mix(in srgb, ${this.color} ${n}, white)`;
+    }
+    return r;
+  }
+
+  textColor() {
+    const r = new TwColor(this);
+
+    if (r.isUndefined()) return r;
+    const c = `calc(clamp((127.5 - (0.2126 * r + 0.7152 * g + 0.0722 * b)) * 255, 0, 255))`;
+    r.color = `rgb(from ${this.toString()} ${c} ${c} ${c})`;
+    return r;
+  }
+}
+
+export function twcolor(...s: (string | null | undefined | TwColorLike)[]): TwColor {
+  const r = s.map((x) => new TwColor(x));
+  return r.find((x) => !x.isUndefined()) || r[0];
+}
+
+export function findBgColor(className: ClassNameValue, color: string | TwColor | undefined) {
+  const c = String(className)
+    .split(' ')
+    .find((x) => x.match(/^bg-[a-z]+(-[0-9]+)?$/));
+  return twcolor((c && c.substring(3)) || color);
 }

@@ -6,15 +6,15 @@
     <div
       v-if="show"
       v-window-event:keydown="onKeyDown"
-      class="popup-container fixed inset-0 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-70 p-4"
+      class="popup-container fixed inset-0 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-gray-900/70 p-4"
       style="z-index: 9999"
       @click.stop="close()">
       <div
-        class="relative h-fit max-h-full w-fit max-w-full overflow-y-auto overflow-x-hidden rounded-lg bg-white p-2 shadow-xl"
+        class="relative h-fit max-h-full w-fit max-w-full overflow-x-hidden overflow-y-auto rounded-lg bg-white p-2 shadow-xl"
         v-bind="$attrs"
         @click.stop>
         <slot v-if="props.closeable" name="close" :close="close">
-          <div class="absolute right-2 top-1 cursor-pointer" @click="close()">
+          <div class="absolute top-1 right-2 cursor-pointer" @click="close()">
             <Icon name="close" />
           </div>
         </slot>
