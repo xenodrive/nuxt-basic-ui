@@ -14,7 +14,7 @@
     <div class="flex flex-1 flex-wrap gap-1">
       <div v-for="(tag, tidx) in tags" :key="tidx" class="flex flex-none items-center">
         <slot name="tag" :tag="tag">
-          <Dropdown :disabled="!slots['tag-dropdown'] || tag.clickable === false">
+          <Dropdown :disabled="!$slots['tag-dropdown'] || tag.clickable === false">
             <template #trigger>
               <Tag
                 class="max-w-[12rem] text-xs"
@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup generic="T extends Tag">
-import { computed, ref, useSlots } from '#imports';
+import { computed, ref } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 export type Tag = {
@@ -106,8 +106,6 @@ type Props = {
   class?: ClassNameValue;
 };
 const props = defineProps<Props>();
-
-const slots = useSlots();
 
 const tags = defineModel<T[]>('tags', { required: true });
 const input = defineModel<string>();
@@ -150,7 +148,13 @@ function onClick() {
   $input.value?.focus();
 }
 
-const $slots = useSlots();
+const $slots = defineSlots<{
+  prepend?: unknown;
+  append?: unknown;
+  'tag-dropdown'?: unknown;
+  tag?: unknown;
+  default?: unknown;
+}>();
 
 const prependExists = computed(() => Boolean($slots.prepend ?? props.iconPrepend));
 const appendExists = computed(() => Boolean($slots.append ?? props.iconAppend));

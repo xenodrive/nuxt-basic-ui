@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, useSlots, watch } from '#imports';
+import { computed, nextTick, ref, watch } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
 type Props = {
@@ -125,7 +125,11 @@ const inputType = computed(() => {
   }
 });
 
-const $slots = useSlots();
+const $slots = defineSlots<{
+  prepend?: unknown;
+  append?: unknown;
+  default?: unknown;
+}>();
 
 const prependExists = computed(() => Boolean($slots.prepend ?? props.iconPrepend));
 const appendExists = computed(() => Boolean($slots.append ?? props.iconAppend));

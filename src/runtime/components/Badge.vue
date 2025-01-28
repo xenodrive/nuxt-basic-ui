@@ -19,10 +19,13 @@
 
 <script lang="ts" setup>
 import type { TwColor } from '#imports';
-import { computed, twcolor, useSlots } from '#imports';
+import { computed, twcolor } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 
-const $slots = useSlots();
+const $slots = defineSlots<{
+  title?: unknown;
+  default?: unknown;
+}>();
 
 type Props = {
   color?: TwColor | string;
