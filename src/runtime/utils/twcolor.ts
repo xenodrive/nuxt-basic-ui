@@ -67,10 +67,3 @@ export function twcolor(...s: (string | null | undefined | TwColorLike)[]): TwCo
   const r = s.map((x) => new TwColor(x));
   return r.find((x) => !x.isUndefined()) || r[0];
 }
-
-export function findBgColor(className: ClassNameValue, color: string | TwColor | undefined) {
-  const c = String(className)
-    .split(' ')
-    .find((x) => x.match(/^bg-[a-z]+(-[0-9]+)?$/));
-  return twcolor((c && c.substring(3)) || color);
-}

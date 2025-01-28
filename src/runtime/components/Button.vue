@@ -14,9 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from '#imports';
+import { computed, ref, twcolor } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
-import { findBgColor, twcolor } from '../utils/twcolor';
 
 // TODO:
 type Props = {
@@ -46,7 +45,7 @@ const icon = computed(() => {
 });
 
 const style = computed(() => {
-  const bgcolor = findBgColor(props.class, props.color);
+  const bgcolor = twcolor(props.color);
   const fgcolor = twcolor(props.colorText, twcolor(bgcolor, '--button-background-color').textColor());
   return {
     '--button-background-color': bgcolor.toString(),
@@ -56,7 +55,7 @@ const style = computed(() => {
 </script>
 
 <style scoped>
-.button {
+.button:default {
   background-color: var(--button-background-color);
   color: var(--button-text-color);
 }

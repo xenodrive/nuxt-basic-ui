@@ -11,7 +11,6 @@
 <script lang="ts" setup>
 import { computed, twcolor } from '#imports';
 import { twMerge } from 'tailwind-merge';
-import { findBgColor } from '../utils/twcolor';
 
 type Props = {
   color?: string;
@@ -26,7 +25,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const style = computed(() => {
-  const bgcolor = findBgColor(props.class, props.color);
+  const bgcolor = twcolor(props.color);
   const fgcolor = twcolor(props.colorText, twcolor(bgcolor, '--tag-background-color').textColor());
   return {
     '--tag-background-color': bgcolor.toString(),
@@ -36,7 +35,7 @@ const style = computed(() => {
 </script>
 
 <style scoped>
-.tag {
+.tag:default {
   background-color: var(--tag-background-color);
   color: var(--tag-text-color);
 }
