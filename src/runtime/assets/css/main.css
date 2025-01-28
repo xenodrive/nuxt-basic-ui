@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "tailwindcss/theme" theme(default);
+@import "tailwindcss/theme";
 @import "./theme.css";
 
 .hover-style {

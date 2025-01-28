@@ -1,4 +1,4 @@
-@import "tailwindcss/theme" theme(refenrece);
+@import "tailwindcss/theme";
 @theme {
   --color-primary: var(--color-indigo-500);
 
