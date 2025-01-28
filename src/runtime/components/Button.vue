@@ -55,8 +55,10 @@ const style = computed(() => {
 </script>
 
 <style scoped>
-.button:default {
-  background-color: var(--button-background-color);
-  color: var(--button-text-color);
+@layer base {
+  .button {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+  }
 }
 </style>

@@ -35,8 +35,10 @@ const style = computed(() => {
 </script>
 
 <style scoped>
-.tag:default {
-  background-color: var(--tag-background-color);
-  color: var(--tag-text-color);
+@layer base {
+  .tag {
+    background-color: var(--tag-background-color);
+    color: var(--tag-text-color);
+  }
 }
 </style>
