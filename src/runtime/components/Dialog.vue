@@ -1,28 +1,33 @@
 <template>
-  <Modal v-model="modal" class="dialog flex flex-col" :closeable="props.closeable !== false">
+  <Modal v-model="modal" :closeable="props.closeable !== false">
     <template #trigger>
       <slot name="trigger" />
     </template>
 
-    <div class="max-h-full flex-grow overflow-auto" :class="props.contentClass">
-      <template v-if="editing != null">
-        <slot :value="editing" :commit="commit" :cancel="cancel" />
-      </template>
-    </div>
-
-    <div v-if="editing != null" class="mt-2 flex items-baseline justify-between">
-      <div>
-        <slot name="footer" :value="editing" />
+    <div class="flex flex-col">
+      <div class="max-h-full flex-grow overflow-auto" :class="props.contentClass">
+        <template v-if="editing != null">
+          <slot :value="editing" :commit="commit" :cancel="cancel" />
+        </template>
       </div>
-      <div class="flex justify-end gap-2">
-        <Button
-          :disabled="props.validator && !props.validator(editing as T)"
-          class="commit"
-          :class="props.commitClass"
-          @click="commit()">
-          <slot name="label-commit">{{ props.commitLabel }}</slot>
-        </Button>
-        <Button class="cancel" :class="props.cancelClass" @click="cancel()">{{ props.cancelLabel }}</Button>
+
+      <div v-if="editing != null" class="mt-2 flex items-baseline justify-between">
+        <div>
+          <slot name="footer" :value="editing" />
+        </div>
+        <div class="flex justify-end gap-2">
+          <Button
+            :disabled="props.validator && !props.validator(editing as T)"
+            class="commit"
+            :class="props.commitClass"
+            :color="props.commitColor"
+            @click="commit()">
+            <slot name="label-commit">{{ props.commitLabel }}</slot>
+          </Button>
+          <Button class="cancel" :class="props.cancelClass" :color="props.cancelColor" @click="cancel()">
+            {{ props.cancelLabel }}
+          </Button>
+        </div>
       </div>
     </div>
   </Modal>
@@ -41,9 +46,11 @@ type Props = {
 
   commitLabel?: string;
   commitClass?: ClassNameValue;
+  commitColor?: string;
 
   cancelLabel?: string;
   cancelClass?: ClassNameValue;
+  cancelColor?: string;
 
   closeable?: boolean;
 };

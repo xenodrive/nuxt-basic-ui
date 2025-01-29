@@ -4,6 +4,7 @@
     <li><NuxtLink to="/button" class="underline">Button</NuxtLink></li>
     <li><NuxtLink to="/checkbox" class="underline">Checkbox</NuxtLink></li>
     <li><NuxtLink to="/dropdown" class="underline">Dropdown</NuxtLink></li>
+    <li><NuxtLink to="/dialog" class="underline">Dialog</NuxtLink></li>
     <li><NuxtLink to="/toggle" class="underline">Toggle</NuxtLink></li>
     <li><NuxtLink to="/tag" class="underline">Tag</NuxtLink></li>
     <li><NuxtLink to="/badge" class="underline">Badge</NuxtLink></li>

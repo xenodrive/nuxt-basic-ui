@@ -1,11 +1,9 @@
 <template>
   <div class="bg-indigo-100 p-2">
-    <div class="">
-      <Dialog v-model="model">
-        <template #trigger>Open</template>
-        <div>dialog</div>
-      </Dialog>
-    </div>
+    <Dialog v-model="model" commit-color="red-500" commit-class="px-2 rounded">
+      <template #trigger>Open</template>
+      <div>dialog</div>
+    </Dialog>
   </div>
 </template>
 
