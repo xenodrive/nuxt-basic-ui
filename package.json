@@ -10,7 +10,6 @@
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
     },
-    "./theme": "./dist/runtime/assets/css/theme.css",
     "./*": "./dist/runtime/*"
   },
   "type": "module",

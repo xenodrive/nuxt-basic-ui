@@ -41,7 +41,7 @@ body,
 </style>
 
 <style scoped>
-@import '../assets/css/theme.css';
+@reference '../assets/css/main.css';
 
 .page {
   @apply relative flex h-full w-full flex-col;
