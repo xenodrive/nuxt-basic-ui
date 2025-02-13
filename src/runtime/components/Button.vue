@@ -1,8 +1,8 @@
 <template>
   <button
-    class="button hover-style disabled-style cursor-pointer"
+    class="button hover-style disabled-style relative cursor-pointer"
     :disabled="props.disabled"
-    :class="twMerge('relative overflow-hidden', props.class)"
+    :class="twMerge('overflow-hidden', props.class)"
     :style="style"
     :aria-busy="props.loading"
     @mouseenter="hover = true"

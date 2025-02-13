@@ -10,8 +10,22 @@
       ]"
       :style="[$attrs.style as StyleValue, style]"
       @click="onClick(navigate)">
-      <Icon v-if="props.checkbox" class="icon" :name="props.checked ? 'checkbox-marked' : 'checkbox-blank-outline'" />
-      <Icon v-else-if="props.radio" class="icon" :name="props.checked ? 'radiobox-marked' : 'radiobox-blank'" />
+      <Icon
+        v-if="props.checkbox"
+        class="icon"
+        :name="
+          props.checked === undefined ? 'minus-box' : props.checked ? 'checkbox-marked' : 'checkbox-blank-outline'
+        " />
+      <Icon
+        v-else-if="props.radio"
+        class="icon"
+        :name="
+          props.checked === undefined
+            ? 'radiobox-indeterminate-variant'
+            : props.checked
+              ? 'radiobox-marked'
+              : 'radiobox-blank'
+        " />
       <Icon v-else-if="props.icon" :name="props.icon" />
       <div class="flex-1">
         <slot />
@@ -21,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, twcolor, useAttrs, type ComputedRef } from '#imports';
+import { computed, inject, ref, twcolor, type ComputedRef } from '#imports';
 import type { ClassNameValue } from 'tailwind-merge';
 import type { StyleValue } from 'vue';
 
@@ -52,8 +66,6 @@ type Selectable = {
 const api = inject<Selectable>('x-selectable');
 
 const emit = defineEmits(['click']);
-
-const $attrs = useAttrs();
 
 function onClick(navigate: (to: string) => void) {
   if (props.disabled) return;
