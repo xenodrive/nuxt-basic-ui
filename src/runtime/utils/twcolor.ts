@@ -1,5 +1,3 @@
-import type { ClassNameValue } from 'tailwind-merge';
-
 interface TwColorLike {
   color: string | undefined;
 }
@@ -39,7 +37,7 @@ export class TwColor {
     const r = new TwColor(this);
     if (r.isUndefined()) return r;
     if (n > 0) {
-      r.color = `color-mix(in srgb, ${this.color} ${n}, black)`;
+      r.color = `color-mix(in srgb, ${this.color} ${n * 100}%, black)`;
     }
     return r;
   }
@@ -48,7 +46,7 @@ export class TwColor {
     const r = new TwColor(this);
     if (r.isUndefined()) return r;
     if (n > 0) {
-      r.color = `color-mix(in srgb, ${this.color} ${n}, white)`;
+      r.color = `color-mix(in srgb, ${this.color} ${n * 100}%, white)`;
     }
     return r;
   }
@@ -60,6 +58,18 @@ export class TwColor {
     const c = `calc(clamp((127.5 - (0.2126 * r + 0.7152 * g + 0.0722 * b)) * 999999, 0, 255))`;
     r.color = `rgb(from ${this.toString()} ${c} ${c} ${c})`;
     return r;
+  }
+
+  resolved() {
+    const obj = document.createElement('div');
+    if (!this.color) return 'transparent';
+    obj.style.color = this.color;
+
+    document.body.appendChild(obj);
+    const { color } = window.getComputedStyle(obj);
+    document.body.removeChild(obj);
+
+    return color;
   }
 }
 

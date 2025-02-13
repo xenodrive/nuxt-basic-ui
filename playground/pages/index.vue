@@ -13,5 +13,6 @@
     <li><NuxtLink to="/qr" class="underline">QR</NuxtLink></li>
     <li><NuxtLink to="/input" class="underline">Input</NuxtLink></li>
     <li><NuxtLink to="/page" class="underline">Page</NuxtLink></li>
+    <li><NuxtLink to="/twcolor" class="underline">twcolor</NuxtLink></li>
   </ul>
 </template>
