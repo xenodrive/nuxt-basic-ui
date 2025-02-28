@@ -36,33 +36,32 @@
     "@mdi/font": "^7.4.47",
     "@nuintun/qrcode": "^4.1.13",
     "@nuxt/kit": "^3.15.4",
-    "@tailwindcss/postcss": "4.0.6",
-    "@tailwindcss/vite": "4.0.6",
-    "@vueuse/core": "^12.5.0",
-    "@vueuse/nuxt": "^12.5.0",
+    "@tailwindcss/postcss": "4.0.9",
+    "@tailwindcss/vite": "4.0.9",
+    "@vueuse/core": "^12.7.0",
+    "@vueuse/nuxt": "^12.7.0",
     "immer": "^10.1.1",
-    "tailwind-merge": "^3.0.1",
-    "tailwindcss": "4.0.6"
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss": "4.0.9"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^1.0.1",
+    "@nuxt/eslint-config": "^1.1.0",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.15.4",
-    "@nuxt/test-utils": "^3.15.4",
+    "@nuxt/test-utils": "^3.17.0",
     "@rushstack/eslint-patch": "^1.10.5",
-    "@types/node": "^22.13.1",
-    "@typescript-eslint/eslint-plugin": "^8.24.0",
-    "@typescript-eslint/parser": "^8.24.0",
+    "@types/node": "^22.13.5",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "changelogen": "^0.5.7",
+    "changelogen": "^0.6.0",
     "eslint": "9",
-    "eslint-config-prettier": "^10.0.1",
+    "eslint-config-prettier": "^10.0.2",
     "nuxt": "^3.15.4",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "~5.6.3",
-    "vue-tsc": "^2.2.0"
-  },
-  "packageManager": "pnpm@9.15.4"
+    "vue-tsc": "^2.2.4"
+  }
 }

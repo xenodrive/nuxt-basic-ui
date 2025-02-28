@@ -61,6 +61,8 @@ export class TwColor {
   }
 
   resolved() {
+    if (typeof document === 'undefined') return this.toString();
+
     const obj = document.createElement('div');
     if (!this.color) return 'transparent';
     obj.style.color = this.color;

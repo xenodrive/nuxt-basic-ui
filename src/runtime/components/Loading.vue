@@ -8,8 +8,7 @@
         props.backdrop ? 'backdrop-blur' : '',
         props.class,
       )
-    "
-    v-bind="$attrs">
+    ">
     <div role="status" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <svg
         aria-hidden="true"
@@ -32,12 +31,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useAttrs } from '#imports';
+import { computed } from '#imports';
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
 defineOptions({
   inheritAttrs: false,
 });
-const $attrs = useAttrs();
 
 type Props = {
   modelValue: boolean;

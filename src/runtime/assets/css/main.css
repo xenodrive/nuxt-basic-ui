@@ -1,6 +1,7 @@
-@import 'tailwindcss';
+@import 'tailwindcss' theme(static);
+@source '../..';
 
-@theme {
+@theme static {
   --color-primary: var(--color-indigo-500);
 
   --badge-title-background-color: var(--color-slate-800);

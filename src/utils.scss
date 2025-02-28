@@ -1,9 +1,0 @@
-@function text-color-for($bgcolor) {
-  $c: calc(clamp((127.5 - (0.2126 * r + 0.7152 * g + 0.0722 * b)) * 255, 0, 255));
-  @return rgb(from $bgcolor $c $c $c);
-}
-
-@function set-opacity($base, $opacity) {
-  @return rgb(from $base r g b / $opacity);
-}
-
