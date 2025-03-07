@@ -34,34 +34,35 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@nuintun/qrcode": "^4.1.13",
+    "@nuintun/qrcode": "^4.1.14",
     "@nuxt/kit": "^3.15.4",
-    "@tailwindcss/postcss": "4.0.9",
-    "@tailwindcss/vite": "4.0.9",
-    "@vueuse/core": "^12.7.0",
-    "@vueuse/nuxt": "^12.7.0",
+    "@tailwindcss/postcss": "4.0.11",
+    "@tailwindcss/vite": "4.0.11",
+    "@vueuse/core": "^12.8.2",
+    "@vueuse/nuxt": "^12.8.2",
     "immer": "^10.1.1",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss": "4.0.9"
+    "tailwindcss": "4.0.11"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxt/eslint-config": "^1.1.0",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.15.4",
-    "@nuxt/test-utils": "^3.17.0",
+    "@nuxt/test-utils": "^3.17.1",
     "@rushstack/eslint-patch": "^1.10.5",
-    "@types/node": "^22.13.5",
-    "@typescript-eslint/eslint-plugin": "^8.25.0",
-    "@typescript-eslint/parser": "^8.25.0",
+    "@types/node": "^22.13.9",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "changelogen": "^0.6.0",
-    "eslint": "9",
+    "changelogen": "^0.6.1",
+    "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "nuxt": "^3.15.4",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "~5.6.3",
-    "vue-tsc": "^2.2.4"
-  }
+    "vue-tsc": "^2.2.8"
+  },
+  "packageManager": "pnpm@8.15.9+sha512.499434c9d8fdd1a2794ebf4552b3b25c0a633abcee5bb15e7b5de90f32f47b513aca98cd5cfd001c31f0db454bc3804edccd578501e4ca293a6816166bbd9f81"
 }
