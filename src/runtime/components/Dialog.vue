@@ -78,7 +78,7 @@ async function commit() {
   if (props.confirm && !(await props.confirm(editing.value as T))) return;
 
   const obj = finishDraft(editing.value) as T;
-  modelValue.value = obj;
+  modelValue.value = JSON.parse(JSON.stringify(obj));
   emit('commit', obj as T);
   editing.value = undefined;
 
