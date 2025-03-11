@@ -9,7 +9,7 @@
         { 'dropdown-item-active': props.active || (props.value !== undefined && api?.selected.value === props.value) },
       ]"
       :style="[$attrs.style as StyleValue, style]"
-      @click="onClick(navigate)">
+      @click="onClick($event, navigate)">
       <Icon
         v-if="props.checkbox"
         class="icon"
@@ -67,12 +67,12 @@ const api = inject<Selectable>('x-selectable');
 
 const emit = defineEmits(['click']);
 
-function onClick(navigate: (to: string) => void) {
+function onClick(e: MouseEvent, navigate: (e?: MouseEvent) => void) {
   if (props.disabled) return;
 
   if (props.to) {
     api?.close();
-    navigate(props.to);
+    navigate(e);
     emit('click', props.value);
     return;
   }
