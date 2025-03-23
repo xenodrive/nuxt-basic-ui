@@ -46,21 +46,11 @@
   position: relative;
 
   &:not([aria-disabled='true'], :disabled, [aria-busy='true']) {
-    &[aria-selected='true']:before, &:hover:before {
-      content: '';
-      display: block;
-      position: absolute;
-      inset: 0;
-
-      background-color: rgba(0, 0, 0, 5%);
+    &[aria-selected='true'], &:hover {
+      filter: brightness(95%);
     }
-    &:active:before {
-      content: '';
-      display: block;
-      position: absolute;
-      inset: 0;
-
-      background-color: rgba(0, 0, 0, 10%);
+    &:active {
+      filter: brightness(90%);
     }
   }
 }
@@ -70,13 +60,6 @@
 
   cursor: not-allowed !important;
 
-  &:before {
-    content: '';
-    display: block;
-    position: absolute;
-    inset: 0;
-
-    backdrop-filter: saturate(0);
-    background-color: rgba(255, 255, 255, 60%);
-  }
+  filter: saturate(0);
+  opacity: 0.4;
 }
