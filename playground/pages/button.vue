@@ -1,6 +1,7 @@
 <template>
   <div>
     <Button>Hello</Button><br />
+    <Button class="bg-blue-100">Hello</Button><br />
     <Button disabled>Hello</Button><br />
 
     <Button color="red-500">Hello</Button><br />

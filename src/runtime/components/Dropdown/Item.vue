@@ -2,7 +2,7 @@
   <NuxtLink v-slot="{ navigate }" :to="props.to" custom>
     <div
       ref="$el"
-      class="dropdown-item input-candidate-item disabled-style hover-style flex cursor-pointer items-baseline gap-2 rounded px-3 py-2 select-none"
+      class="dropdown-item input-candidate-item disabled-style hover-style flex cursor-pointer items-baseline gap-2 rounded bg-white px-3 py-2 select-none"
       :aria-disabled="props.disabled"
       :class="[
         $attrs.class as ClassNameValue,
