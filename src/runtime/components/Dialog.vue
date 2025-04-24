@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
   cancelLabel: 'Cancel',
   closeable: true,
 });
-const modal = defineModel<boolean | undefined>('active', { default: undefined });
+const modal = defineModel<boolean>('active', { default: undefined });
 const modelValue = defineModel<T>({ required: true });
 const editing = ref<Draft<T>>();
 

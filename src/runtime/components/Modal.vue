@@ -29,7 +29,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const show = defineModel<boolean | undefined>();
+const show = defineModel<boolean>();
 const emit = defineEmits<{
   open: [];
   close: [];
