@@ -9,7 +9,7 @@
   --badge-title-text-shadow-opacity: 25%;
   --badge-value-text-shadow-opacity: 25%;
 
-  --button-background-color: var(--color-slate-100);
+  --button-background-color: var(--color-transparent);
 
   --checkbox-text-color: var(--color-inherit);
   --checkbox-icon-color: var(--color-primary);
