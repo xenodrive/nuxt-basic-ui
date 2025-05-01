@@ -55,7 +55,7 @@ export class TwColor {
     const r = new TwColor(this);
 
     if (r.isUndefined()) return r;
-    const c = `calc(clamp((127.5 - (0.2126 * r + 0.7152 * g + 0.0722 * b)) * 999999, 0, 255))`;
+    const c = `min(max((127.5 - (0.2126 * r + 0.7152 * g + 0.0722 * b)) * 999999, 0), 255)`;
     r.color = `rgb(from ${this.toString()} ${c} ${c} ${c})`;
     return r;
   }
